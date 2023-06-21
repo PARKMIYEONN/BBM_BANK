@@ -33,6 +33,9 @@ public class PostingProcessController implements Controller{
 		BoardDAO dao = new BoardDAO();
 		dao.posting(vo);
 		
+		
+		
+		
 		return "/index.jsp";
 	}
 	

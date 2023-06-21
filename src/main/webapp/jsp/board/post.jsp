@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,18 @@
 		<jsp:include page="/jsp/include/topMenu.jsp"/>
 	</header>
 	<section>
-		
+		<div>
+		<h3>${post.postNo}.${ post.title }</h3>
+		</div>
+		<div>
+		${ post.writer }
+		</div>
+		<div>
+		${ post.regDate }
+		</div>
+		<div>
+		${ post.content }
+		</div>
 	</section>
 	
 	<footer>

@@ -11,7 +11,10 @@
 		<jsp:include page="/jsp/include/topMenu.jsp"/>
 	</header>
 	<section>
-		
+		<form action="post.do" method="post">
+		<input type="text" name="postNo">
+		<button type="submit">글번호</button>
+		</form>
 	</section>
 	
 	<footer>
