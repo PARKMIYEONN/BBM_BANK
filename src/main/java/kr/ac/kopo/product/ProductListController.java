@@ -1,4 +1,4 @@
-package kr.ac.kopo.board;
+package kr.ac.kopo.product;
 
 public class ProductListController {
 

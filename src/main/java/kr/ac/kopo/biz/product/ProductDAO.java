@@ -9,7 +9,7 @@ public class ProductDAO {
 
 	public void insertProduct(ProductVO vo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into b_products(product_name, product_type, end_date, product_rate ");
+		sql.append("insert into b_products(product_name, product_type, end_date, product_rate) ");
 		sql.append(" values(?, ?, ?, ?) ");
 		
 		try (Connection conn = new ConnectionFactory().getConnection();

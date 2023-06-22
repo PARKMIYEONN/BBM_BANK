@@ -34,7 +34,7 @@
 </header>
 <section class="container">
   <h1 class="text-center">상품등록</h1>
-  <form action="insertproduct.do" method="POST" class="text-center">
+  <form action="insertproductprocess.do" method="POST" class="text-center">
     <div class="form-group">
       <label for="productname">상품명</label>
       <input type="text" id="productname" name="pname" class="form-control">
@@ -50,39 +50,14 @@
   </div>
 </div>
     <div class="form-group">
-      <label for="email"></label>
-      <input type="email" id="email" name="email" class="form-control" placeholder="이메일">
+      <label for="enddate">가입기한</label>
+      <input type="date" id="enddate" name="edate" class="form-control">
     </div>
     <div class="form-group">
-      <label for="jumin1">주민등록번호</label>
-      <input type="text" id="jumin1" name="jumin1" class="form-control" placeholder="주민등록번호 앞 6자리" pattern="[0-9]{6}">
-      <input type="text" id="jumin2" name="jumin2" class="form-control" placeholder="주민등록번호 뒷 첫자리" pattern="[0-9]{1}">
+      <label for="rate">적용이율</label>
+      <input type="text" id="prate" name="prate" class="form-control">
     </div>
-    <div class="form-group">
-      <label for="phone">전화번호</label>
-      <input type="tel" id="phone" name="phone" class="form-control" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
-    </div>
-    <div class="form-group">
-      <label for="sample6_postcode">우편번호</label>
-      <div class="input-group">
-        <input type="text" id="sample6_postcode" name="post" class="form-control" placeholder="우편번호">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="sample6_address">주소</label>
-      <input type="text" id="sample6_address" name="address" class="form-control" placeholder="주소">
-    </div>
-    <div class="form-group">
-      <label for="sample6_detailAddress">상세주소</label>
-      <input type="text" id="sample6_detailAddress" name="detailAddress" class="form-control" placeholder="상세주소">
-    </div>
-    <div class="form-group">
-      <label for="sample6_extraAddress">참고항목</label>
-      <input type="text" id="sample6_extraAddress" name="extraAddress" class="form-control" placeholder="참고항목">
-    </div>
+ 
     <button type="submit" class="btn btn-primary">회원가입</button>
   </form>
 </section>
