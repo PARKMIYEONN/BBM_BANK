@@ -11,20 +11,36 @@
 	<header>
 		<jsp:include page="/jsp/include/topMenu.jsp"/>
 	</header>
-	<section>
-		<div>
-		<h3>${post.postNo}.${ post.title }</h3>
-		</div>
-		<div>
-		${ post.writer }
-		</div>
-		<div>
-		${ post.regDate }
-		</div>
-		<div>
-		${ post.content }
-		</div>
-	</section>
+<section class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">${post.postNo}.${post.title}</h3>
+                    <hr> <!-- 날짜와 콘텐츠 구분선 -->
+                    <div class="card-text">
+                        <p class="post-info">${post.writer} | ${post.regDate}</p>
+                        <div class="content-area">
+                            <p>${post.content}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .post-info {
+        font-size: 14px;
+        color: #888;
+    }
+    .content-area {
+        margin-top: 10px;
+    }
+</style>
+
+
 	
 	<footer>
 		<%@ include file="/jsp/include/bottom.jsp" %>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,12 +11,51 @@
 	<header>
 		<jsp:include page="/jsp/include/topMenu.jsp"/>
 	</header>
-	<section>
-		<form action="post.do" method="post">
-		<input type="text" name="postNo">
-		<button type="submit">글번호</button>
-		</form>
-	</section>
+<section class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h1 class="text-center">문의게시판</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>글번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="post" items="${boardList}">
+            <tr>
+              <td>${post.postNo}</td>
+              <td><a href="post.do?postNo=${post.postNo}">${post.title}</a></td>
+              <td>${post.writer}</td>
+              <td>${post.regDate}</td>
+            </tr>
+          </c:forEach>
+        </tbody>
+      </table>
+      <form action="post.do" method="post" class="text-center">
+        <input type="text" name="postNo" class="form-control">
+        <button type="submit" class="btn btn-primary">글번호</button>
+      </form>
+      <form action="posting.do" method="post" class="text-center">
+        <button type="submit" class="btn btn-primary">글쓰기</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
 	
 	<footer>
 		<%@ include file="/jsp/include/bottom.jsp" %>
