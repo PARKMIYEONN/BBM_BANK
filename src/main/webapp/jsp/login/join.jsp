@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
   .container {
     display: flex;
@@ -24,6 +26,73 @@
 <body>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+// 아이디 유효성 검사 함수
+function validateId() {
+    var id = $("#id").val();
+    var idRegex = /^[a-zA-Z0-9]{1,16}$/;
+    if (!idRegex.test(id)) {
+        $("#id").addClass("is-invalid");
+        return false;
+    } else {
+        $("#id").removeClass("is-invalid");
+        return true;
+    }
+}
+
+// 비밀번호 유효성 검사 함수
+function validatePassword() {
+    var password = $("#password").val();
+    var passwordRegex = /^[a-zA-Z0-9]{1,16}$/;
+    if (!passwordRegex.test(password)) {
+        $("#password").addClass("is-invalid");
+        return false;
+    } else {
+        $("#password").removeClass("is-invalid");
+        return true;
+    }
+}
+
+function checkSubmit() {
+    var id = $("#id").val();
+    // 유효성 검사 수행
+    if (validateId() && validatePassword()) {
+        // 유효성 검사 통과 시 AJAX 요청
+        console.log('duplicate check start...')
+        $.ajax({
+            url: "/MYBANK/checkduplicateid.do", // 중복 아이디 확인을 위한 서버 요청 URL
+            method: "POST",
+            data: {id: id}, // 폼 데이터 직렬화하여 전송
+            success: function(response) {
+                response = response.trim();
+                if (response === "duplicate") {
+                    alert("중복된 아이디입니다. 다른 아이디를 사용해주세요.");
+                } else if (response === "success") {
+                    // 유효성 검사와 중복 아이디 확인 모두 통과 시 회원가입 진행
+                    $("#signupForm")[0].submit();
+                }
+            }
+        });
+    }
+    return false;
+}
+
+$(document).ready(function() {
+    // 아이디와 비밀번호 입력 필드의 유효성 검사
+    $("#id").on("input", function() {
+        validateId();
+    });
+
+    $("#password").on("input", function() {
+        validatePassword();
+    });
+
+    // 회원가입 양식 제출 시 유효성 검사
+    $("#signupForm").on("submit", function(event) {
+        event.preventDefault(); // 기본 제출 동작 중지
+    });
+});
+
   function sample6_execDaumPostcode() {
     new daum.Postcode({
       oncomplete: function(data) {
@@ -77,7 +146,7 @@
 </header>
 <section class="container">
   <h1 class="text-center">회원가입</h1>
-  <form action="joinprocess.do" method="POST" class="text-center">
+  <form action="joinprocess.do" method="POST" class="text-center" name="inputForm" id="signupForm" onsubmit="return checkSubmit()" >
     <div class="form-group">
       <label for="id">아이디</label>
       <input type="text" id="id" name="id" class="form-control" placeholder="아이디" >

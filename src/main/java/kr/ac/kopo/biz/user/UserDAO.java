@@ -62,5 +62,28 @@ public class UserDAO {
 		}
 		return user;
 	}
+	
+	public boolean checkDuplicateId(String id) {
+
+	      StringBuilder sql = new StringBuilder();
+	      String id1 = null;
+	      sql.append("select user_id from b_user_info ");
+	      try (Connection conn = new ConnectionFactory().getConnection();
+	            PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+	            ResultSet rs = pstmt.executeQuery();) {
+	         while (rs.next()) {
+	            id1 = rs.getString("user_id");
+	            if (id1.equals(id)) {
+	               return true;
+
+	            }
+
+	         }
+
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	      return false;
+	   }
 
 }
