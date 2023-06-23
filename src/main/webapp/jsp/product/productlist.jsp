@@ -4,9 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>BBM은행</title>
 </head>
 <body>
-
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp"/>
+	</header>
+	<section>
+		
+	</section>
+	
+	<footer>
+		<%@ include file="/jsp/include/bottom.jsp" %>
+	</footer>
 </body>
 </html>
