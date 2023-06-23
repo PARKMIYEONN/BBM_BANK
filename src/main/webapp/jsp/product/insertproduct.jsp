@@ -58,7 +58,7 @@
       <input type="text" id="prate" name="prate" class="form-control">
     </div>
  
-    <button type="submit" class="btn btn-primary">회원가입</button>
+    <button type="submit" class="btn btn-primary">등록</button>
   </form>
 </section>
 
