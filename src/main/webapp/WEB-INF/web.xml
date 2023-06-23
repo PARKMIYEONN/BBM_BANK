@@ -6,7 +6,8 @@
   		<servlet-class>kr.ac.kopo.controller.DispatcherServlet</servlet-class>
   		<init-param>
   			<param-name>propLoc</param-name>
-  			<param-value>C:\\Users\\User\\eclipse-workspaceJSP\\MYBANK\\bean.properties</param-value>
+  			<!-- <param-value>C:\\Users\\User\\eclipse-workspaceJSP\\MYBANK\\bean.properties</param-value> -->
+  			<param-value>C:\\Users\\miyou\\workspace\\MYBANK\\bean.properties</param-value>
   		</init-param>
   </servlet>
   
