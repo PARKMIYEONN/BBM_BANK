@@ -14,8 +14,9 @@ public class ProductListController implements Controller{
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		ProductDAO dao = new ProductDAO();
-		List<ProductVO> product = dao.
-		return "";
+		List<ProductVO> product = dao.productList();
+		request.setAttribute("products", product);
+		return "/jsp/product/productlist.jsp";
 	}
 
 	
