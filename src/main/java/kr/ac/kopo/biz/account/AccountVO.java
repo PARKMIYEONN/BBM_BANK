@@ -1,6 +1,6 @@
 package kr.ac.kopo.biz.account;
 
-public class accountVO {
+public class AccountVO {
 	
 	private String accNo;
 	private String userId;
@@ -84,7 +84,7 @@ public class accountVO {
 		this.accPassword = accPassword;
 	}
 	
-	public accountVO(String accNo, String userId, String productName, String bankCode, String accType, int dormantAcc,
+	public AccountVO(String accNo, String userId, String productName, String bankCode, String accType, int dormantAcc,
 			long balance, String accCreateDate, String accPassword) {
 		super();
 		this.accNo = accNo;
@@ -98,7 +98,7 @@ public class accountVO {
 		this.accPassword = accPassword;
 	}
 	
-	public accountVO() {
+	public AccountVO() {
 		super();
 	}
 	

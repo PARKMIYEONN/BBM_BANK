@@ -20,7 +20,7 @@ public class ProductDAO {
 			pstmt.setString(1, vo.getProductName());
 			pstmt.setString(2, vo.getProductType());
 			pstmt.setString(3, vo.getEndDate());
-			pstmt.setInt(4, vo.getProductRate());
+			pstmt.setDouble(4, vo.getProductRate());
 			
 			pstmt.executeUpdate();
 			
@@ -45,7 +45,7 @@ public class ProductDAO {
 				product.setProductType(rs.getString("product_type"));
 				product.setReleaseDate(rs.getString("release_date"));
 				product.setEndDate(rs.getString("end_date"));
-				product.setProductRate(rs.getInt("product_rate"));
+				product.setProductRate(rs.getDouble("product_rate"));
 				productList.add(product);
 			}
 			

@@ -53,6 +53,18 @@ function validatePassword() {
     }
 }
 
+function checkPassword(){
+	var password = $("#password").val();
+	var chkpassword = $("#chkpassword").val();
+	if(password !== chkpassword){
+		$("#chkpassword").addClass("is-invalid");
+		return false;
+	} else {
+		$("#chkpassword").removeClass("is-invalid");
+		return true;	
+	}
+}
+
 function checkSubmit() {
     var id = $("#id").val();
     // 유효성 검사 수행
@@ -85,6 +97,10 @@ $(document).ready(function() {
 
     $("#password").on("input", function() {
         validatePassword();
+    });
+    
+    $("#chkpassword").on("input", function() {
+    	checkPassword();
     });
 
     // 회원가입 양식 제출 시 유효성 검사
@@ -152,8 +168,12 @@ $(document).ready(function() {
       <input type="text" id="id" name="id" class="form-control" placeholder="아이디" >
     </div>
     <div class="form-group">
-      <label for="password">패스워드</label>
-      <input type="password" id="password" name="password" class="form-control" placeholder="패스워드">
+      <label for="password">비밀번호</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호">
+    </div>
+     <div class="form-group">
+      <label for="chkpassword">비밀번호 확인</label>
+      <input type="password" id="chkpassword" name="chkpassword" class="form-control" placeholder="비밀번호 확인">
     </div>
     <div class="form-group">
       <label for="name">이름</label>

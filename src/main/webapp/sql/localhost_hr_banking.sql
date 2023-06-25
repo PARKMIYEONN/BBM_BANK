@@ -189,6 +189,14 @@ alter table b_products modify (end_date null);
 
 select * from b_products;
 
+select * from b_account;
+
+insert into bank_info (bank_cd, bank_nm) values('0504', 'ezi은행');
+insert into bank_info (bank_cd, bank_nm) values('1003', 'BBM은행');
+insert into bank_info (bank_cd, bank_nm) values('0413', 'BjBank');
+insert into bank_info (bank_cd, bank_nm) values('9999', 'KKP은행');
+
+
 
 commit;
 

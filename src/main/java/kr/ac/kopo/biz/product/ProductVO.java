@@ -5,7 +5,7 @@ public class ProductVO {
 	private String productType;
 	private String releaseDate;
 	private String endDate;
-	private int productRate;
+	private double productRate;
 	
 	public String getProductName() {
 		return productName;
@@ -39,15 +39,15 @@ public class ProductVO {
 		this.endDate = endDate;
 	}
 	
-	public int getProductRate() {
+	public double getProductRate() {
 		return productRate;
 	}
 	
-	public void setProductRate(int productRate) {
+	public void setProductRate(double productRate) {
 		this.productRate = productRate;
 	}
 	
-	public ProductVO(String productName, String productType, String releaseDate, String endDate, int productRate) {
+	public ProductVO(String productName, String productType, String releaseDate, String endDate, double productRate) {
 		super();
 		this.productName = productName;
 		this.productType = productType;

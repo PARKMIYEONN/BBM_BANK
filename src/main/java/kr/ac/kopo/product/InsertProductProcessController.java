@@ -21,7 +21,7 @@ public class InsertProductProcessController implements Controller{
 		vo.setProductName(productName);
 		vo.setProductType(productType);
 		vo.setEndDate(endDate);
-		vo.setProductRate(Integer.parseInt(pRate));
+		vo.setProductRate(Double.parseDouble(pRate));
 		
 		ProductDAO dao = new ProductDAO();
 		dao.insertProduct(vo);
