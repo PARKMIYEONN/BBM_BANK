@@ -8,6 +8,14 @@
 <title>MY은행</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <style>
+
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
   .btn-outline-primary {
     border-color: #8B4513;
     color: #8B4513;
@@ -31,6 +39,8 @@
   
   body {
    margin : 0;
+   font-family: 'NanumSquareNeo-Variable';
+   padding : 2%;
 }
   
 </style>
@@ -68,5 +78,4 @@
 
 </body>
 </html>
-
 

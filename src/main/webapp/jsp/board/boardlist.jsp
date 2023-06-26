@@ -15,7 +15,7 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <h1 class="text-center">문의게시판</h1>
-      <table class="table">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th>글번호</th>

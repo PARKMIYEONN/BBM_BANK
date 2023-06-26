@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import kr.ac.kopo.biz.account.AccountDAO;
 import kr.ac.kopo.biz.account.AccountVO;
+import kr.ac.kopo.biz.product.ProductDAO;
 import kr.ac.kopo.biz.product.ProductVO;
 import kr.ac.kopo.biz.user.UserVO;
 import kr.ac.kopo.controller.Controller;
@@ -22,7 +23,10 @@ public class NewAccountProcessController implements Controller{
 		String productName = request.getParameter("productName");
 		System.out.println(productName);
 		String bankCode = "1003";
-		String accType = request.getParameter("productType");
+		
+		ProductDAO pdao = new ProductDAO();
+		ProductVO product = pdao.selectProduct(productName);
+		String accType = product.getProductType();
 		long balance = 0;
 		AccountDAO dao = new AccountDAO();
 		String accNo = dao.generateRandomNumber(8);

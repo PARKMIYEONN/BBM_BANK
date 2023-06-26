@@ -2,7 +2,10 @@ package kr.ac.kopo.biz.account;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -31,6 +34,37 @@ public class AccountDAO {
 			e.printStackTrace();
 			
 		}
+	}
+	
+	public List<AccountVO> myAcc(String id){
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from b_account where user_id = ? ");
+		AccountVO account = null;
+		List<AccountVO> accList = new ArrayList<>();
+		try(Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				account = new AccountVO();
+				account.setAccCreateDate(rs.getString("acc_created_date"));
+				account.setAccNo(rs.getString("acc_no"));
+				account.setAccPassword(rs.getString("acc_password"));
+				account.setAccType(rs.getString("acc_type"));
+				account.setBalance(rs.getLong("balance"));
+				account.setBankCode(rs.getString("bank_cd"));
+				account.setDormantAcc(rs.getInt("dormant_acc"));
+				account.setProductName(rs.getString("product_name"));
+				account.setUserId(id);
+				accList.add(account);
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return accList;
 	}
 	
 	public String generateRandomNumber(int length) {

@@ -12,7 +12,7 @@
 	<header>
 		<jsp:include page="/jsp/include/topMenu.jsp" />
 	</header>
-<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+<section class="d-flex justify-content-center align-items-center" style="height: 100%;">
     <div class="container">
         <h1 class="text-center">문의사항 작성</h1>
         <form action="postingprocess.do" method="POST">

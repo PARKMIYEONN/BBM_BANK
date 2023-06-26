@@ -5,12 +5,8 @@
 <head>
   <meta charset="UTF-8">
   <title>BBM은행</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-  <!-- 부트스트랩 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-  <!-- 부트스트랩 JavaScript (Popper.js와 Bootstrap 스크립트 포함) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -18,28 +14,21 @@
 		<jsp:include page="/jsp/include/topMenu.jsp"/>
 	</header>
 	<section>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/MYBANK/newaccount.do">계좌 생성</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<ul class="nav nav-pills nav-fill">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="/MYBANK/newaccount.do">계좌 생성</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/MYBANK/myaccount.do">계좌 조회</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Disabled</a>
+  </li>
+</ul>
+
 	</section>
 	
 	<footer>

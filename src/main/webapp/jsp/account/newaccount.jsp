@@ -59,28 +59,20 @@ $(document).ready(function() {
 		<jsp:include page="/jsp/include/topMenu.jsp"/>
 	</header>
 <section>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="/MYBANK/newaccount.do">계좌 생성</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<ul class="nav nav-pills nav-fill">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="/MYBANK/newaccount.do">계좌 생성</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/MYBANK/myaccount.do">계좌 조회</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Disabled</a>
+  </li>
+</ul>
 
 <h1 class="text-center">계좌 생성</h1>
   <form action="abc.do" method="POST" >
@@ -90,12 +82,7 @@ $(document).ready(function() {
   <option disabled selected>상품 선택</option>
   <c:forEach var="product" items="${products}">
     <option value="${product.productName}">${product.productName}</option>
-    <c:if test="${product.productType eq '예금'}">
-      <input type="hidden" name="productType" value="예금">
-    </c:if>
-    <c:if test="${product.productType eq '적금'}">
-      <input type="hidden" name="productType" value="적금">
-    </c:if>
+   
   </c:forEach>
 </select>
 

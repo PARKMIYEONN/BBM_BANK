@@ -55,4 +55,28 @@ public class ProductDAO {
 		}
 		return productList;
 	}
+	
+	public ProductVO selectProduct(String pName){
+		StringBuilder sql = new StringBuilder();
+		ProductVO product = null;
+		sql.append("select * from b_products where product_name = ? ");
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, pName);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				product = new ProductVO();
+				product.setProductName(rs.getString("product_name"));
+				product.setProductType(rs.getString("product_type"));
+				product.setReleaseDate(rs.getString("release_date"));
+				product.setEndDate(rs.getString("end_date"));
+				product.setProductRate(rs.getDouble("product_rate"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return product;
+	}
 }
