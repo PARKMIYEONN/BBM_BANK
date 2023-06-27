@@ -185,6 +185,8 @@ select * from b_posts;
 
 CREATE SEQUENCE sequence_postNo nocache;
 
+CREATE SEQUENCE sequence_TransNO nocache;
+
 alter table b_products modify (end_date null);
 
 select * from b_products;
@@ -197,6 +199,60 @@ insert into bank_info (bank_cd, bank_nm) values('0413', 'BjBank');
 insert into bank_info (bank_cd, bank_nm) values('9999', 'KKP은행');
 
 
+CREATE OR REPLACE PROCEDURE transfer (
+  sender_account_number IN b_account.acc_no%TYPE, 
+  receiver_account_number IN b_account.acc_no%TYPE, 
+  transfer_amount IN NUMBER) AS
+  sender_balance NUMBER;
+  receiver_balance NUMBER;
+BEGIN
+  -- 보내는 계좌의 잔액 확인
+  SELECT balance INTO sender_balance 
+  FROM b_account 
+  WHERE acc_no = sender_account_number;
+  
+  -- 받는 계좌의 잔액 확인
+  SELECT balance INTO receiver_balance 
+  FROM b_account 
+  WHERE acc_no = receiver_account_number;
+  
+  -- 보내는 계좌의 잔액이 충분한지 확인
+  IF sender_balance >= transfer_amount THEN
+    -- 보내는 계좌에서 돈을 빼고
+    UPDATE b_account
+    SET balance = balance - transfer_amount
+    WHERE acc_no = sender_account_number;
+    
+    -- 받는 계좌에 돈을 추가
+    UPDATE b_account
+    SET balance = balance + transfer_amount
+    WHERE acc_no = receiver_account_number;
+  ELSE
+    RAISE_APPLICATION_ERROR(-20001, 'Insufficient balance');
+  END IF;
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE;
+END;
+/
+
+
 
 commit;
+
+CREATE DATABASE LINK BjBank
+ CONNECT TO hr
+ IDENTIFIED BY hr
+ USING
+'(DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.31.9.168)(PORT = 1521))
+      (CONNECT_DATA =
+        (SERVER = DEDICATED)
+        (SERVICE_NAME = xe))
+)';
+
+select * from account @BjBank;
+
+DROP DATABASE LINK eziBank;
 

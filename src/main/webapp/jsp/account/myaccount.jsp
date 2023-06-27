@@ -29,7 +29,7 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <h1 class="text-center">내 계좌 조회</h1>
-      <p>총 계좌 잔액 : </p>
+      <p>총 계좌 잔액 : ${ totalbalance }</p>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
@@ -38,6 +38,8 @@
             <th>은행이름</th>
             <th>잔액</th>
             <th>생성일</th>
+            <th>조회</th>
+            <th>이체</th>
           </tr>
         </thead>
         <tbody>
@@ -48,6 +50,10 @@
               <td>${account.accType}</td>
               <td>${account.balance}</td>
               <td>${account.accCreateDate}</td>
+              <td><button>조회</button></td>
+              <td><form method="post" action="/MYBANK/transaction.do">
+              <input type="hidden" name="accNo" value="${account.accNo}">
+              <button>이체</button></form></td>
             </tr>
           </c:forEach>
         </tbody>

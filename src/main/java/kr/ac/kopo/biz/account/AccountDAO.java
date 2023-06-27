@@ -67,6 +67,25 @@ public class AccountDAO {
 		return accList;
 	}
 	
+	public long totalBalance(String userId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select balance from b_account where user_id = ? ");
+		long totalbalance = 0;
+		try(Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, userId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				totalbalance += rs.getLong("balance");
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return totalbalance;
+	}
+	
 	public String generateRandomNumber(int length) {
         Random random = new Random();
         Set<Integer> generatedNumbers = new HashSet<>();

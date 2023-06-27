@@ -1,6 +1,8 @@
 package kr.ac.kopo.account;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +24,12 @@ public class MyAccountController implements Controller{
 		AccountDAO dao = new AccountDAO();
 		List<AccountVO> accList = dao.myAcc(uvo.getUserId());
 		
+		
+		NumberFormat currencyFormatKorea = NumberFormat.getInstance(Locale.KOREA);
+        String formattedAmountKorea = currencyFormatKorea.format(dao.totalBalance(id)) + "원";
+		
 		request.setAttribute("myAccount", accList);
+		request.setAttribute("totalbalance", formattedAmountKorea);
 		
 		return "/jsp/account/myaccount.jsp";
 	}
