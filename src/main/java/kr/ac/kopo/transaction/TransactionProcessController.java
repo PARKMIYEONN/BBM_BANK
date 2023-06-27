@@ -40,7 +40,7 @@ public class TransactionProcessController implements Controller{
 		dao.transactionHistory(vo);
 		
 		
-		return "/jsp/account/myaccount.jsp";
+		return "redirect:/myaccount.do";
 	}
 
 	
