@@ -50,7 +50,9 @@
               <td>${account.accType}</td>
               <td>${account.balance}</td>
               <td>${account.accCreateDate}</td>
-              <td><button>조회</button></td>
+              <td><form method="post" action="/MYBANK/transactionlist.do">
+              <input type="hidden" name="accNo" value="${account.accNo}">
+              <button>조회</button></form></td>
               <td><form method="post" action="/MYBANK/transaction.do">
               <input type="hidden" name="accNo" value="${account.accNo}">
               <input type="hidden" name="bankCode" value="${account.bankCode}">      
