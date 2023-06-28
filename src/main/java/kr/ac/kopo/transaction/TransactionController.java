@@ -16,11 +16,13 @@ public class TransactionController implements Controller{
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		
 		String accNo = request.getParameter("accNo");
+		String bankCode = request.getParameter("bankCode");
 		HttpSession session = request.getSession();
 		BankDAO dao = new BankDAO();
 		List<BankVO> bank = dao.bankList();
 		session.setAttribute("bankinfo", bank);
 		session.setAttribute("accNo", accNo);
+		session.setAttribute("bankCode", bankCode);
 		return "/jsp/transaction/transaction.jsp";
 	}
 

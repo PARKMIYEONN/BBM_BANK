@@ -58,7 +58,7 @@ $(document).ready(function() {
   <form action="transactionprocess.do" method="POST" >
   
 <label for="bank-select">이체 은행:</label>
-<select id="bank-select" name="bankCode">
+<select id="bank-select" name="DbankCode">
   <option disabled selected>은행 선택</option>
   <c:forEach var="bank" items="${ bankinfo }">
     <option value="${bank.bankCode}">${bank.bankName}</option>
@@ -73,6 +73,7 @@ $(document).ready(function() {
       <label for="acc_no">이체할 계좌 번호</label>
       <input type="hidden" name="accNo" value="${accNo}">
       <input type="hidden" name="info" value="${accNo}">
+      <input type="hidden" name="bankCode" value="${bankCode}">
       
       <input type="text" id="acc_no" name="acc_no" class="form-control" placeholder="이체할 계좌 번호를 입력하세요">
     </div>

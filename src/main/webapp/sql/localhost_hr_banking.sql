@@ -74,7 +74,8 @@ CREATE TABLE   B_TRANSACTION   (
 	  T_TYPE  	VARCHAR2(10)		NOT NULL,
 	  T_AMOUNT  	NUMBER		NOT NULL,
 	  T_INFO  	CLOB		NOT NULL,
-	  BANK_CD  	VARCHAR2(20)		NOT NULL
+	  BANK_CD  	VARCHAR2(20)		NOT NULL,
+         deposit_bank_cd varchar2(20) not null
 );
 
 DROP TABLE   BANK_INFO  ;
@@ -183,7 +184,11 @@ select * from b_user_info;
 
 select * from b_posts;
 
+DROP SEQUENCE sequence_postNo;
+
 CREATE SEQUENCE sequence_postNo nocache;
+
+DROP SEQUENCE sequence_TransNO;
 
 CREATE SEQUENCE sequence_TransNO nocache;
 
@@ -193,6 +198,10 @@ select * from b_products;
 
 select * from b_account;
 select * from b_transaction;
+
+ALTER TABLE b_transaction
+ADD deposit_account VARCHAR(50);
+
 
 insert into bank_info (bank_cd, bank_nm) values('0504', 'ezi은행');
 insert into bank_info (bank_cd, bank_nm) values('1003', 'BBM은행');
@@ -240,7 +249,52 @@ END;
 
 
 
-commit;
+CREATE OR REPLACE PROCEDURE transfer_BJ (
+  sender_account_number IN b_account.acc_no%TYPE, 
+  receiver_account_number IN account.account_id @BjBank%TYPE, 
+  transfer_amount IN NUMBER) AS
+  sender_balance NUMBER;
+  receiver_balance NUMBER;
+BEGIN
+  -- 보내는 계좌의 잔액 확인
+  SELECT balance INTO sender_balance 
+  FROM b_account 
+  WHERE acc_no = sender_account_number;
+  
+  -- 받는 계좌의 잔액 확인
+  SELECT account_bl INTO receiver_balance 
+  FROM account@BjBank 
+  WHERE account_id = receiver_account_number;
+  
+  -- 보내는 계좌의 잔액이 충분한지 확인
+  IF sender_balance >= transfer_amount THEN
+    -- 보내는 계좌에서 돈을 빼고
+    UPDATE b_account
+    SET balance = balance - transfer_amount
+    WHERE acc_no = sender_account_number;
+    
+    -- 받는 계좌에 돈을 추가
+    UPDATE account@BjBank
+    SET account_bl = account_bl + transfer_amount
+    WHERE account_id = receiver_account_number;
+  ELSE
+    RAISE_APPLICATION_ERROR(-20001, 'Insufficient balance');
+  END IF;
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE;
+END;
+/
+
+BEGIN
+  transfer_otherBank('85913260', '202306280018', 1000);
+  COMMIT;
+END;
+
+
+
+
 
 CREATE DATABASE LINK BjBank
  CONNECT TO hr
@@ -255,5 +309,11 @@ CREATE DATABASE LINK BjBank
 
 select * from account @BjBank;
 
-DROP DATABASE LINK eziBank;
+commit;
+
+
+
+
+
+
 

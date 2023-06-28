@@ -25,7 +25,7 @@ public class InsertProductProcessController implements Controller{
 		
 		ProductDAO dao = new ProductDAO();
 		dao.insertProduct(vo);
-		return "/jsp/product/insertproduct.jsp";
+		return "redirect:/productlist.do";
 		
 	}
 	

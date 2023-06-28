@@ -9,10 +9,13 @@ public class TransactionVO {
 	private long transAmount;
 	private String transInfo;
 	private String bankCode;
+	private String depositBankCode;
 	private String depositAccNo;
 	
+
+
 	public TransactionVO(int transCode, String accNo, String transDate, String transType, long transAmount,
-			String transInfo, String bankCode, String depositAccNo) {
+			String transInfo, String bankCode, String depositBankCode, String depositAccNo) {
 		super();
 		this.transCode = transCode;
 		this.accNo = accNo;
@@ -21,7 +24,16 @@ public class TransactionVO {
 		this.transAmount = transAmount;
 		this.transInfo = transInfo;
 		this.bankCode = bankCode;
+		this.depositBankCode = depositBankCode;
 		this.depositAccNo = depositAccNo;
+	}
+
+	public String getDepositBankCode() {
+		return depositBankCode;
+	}
+
+	public void setDepositBankCode(String depositBankCode) {
+		this.depositBankCode = depositBankCode;
 	}
 
 	public String getDepositAccNo() {
@@ -98,8 +110,11 @@ public class TransactionVO {
 	public String toString() {
 		return "TransactionVO [transCode=" + transCode + ", accNo=" + accNo + ", transDate=" + transDate
 				+ ", transType=" + transType + ", transAmount=" + transAmount + ", transInfo=" + transInfo
-				+ ", bankCode=" + bankCode + ", depositAccNo=" + depositAccNo + "]";
+				+ ", bankCode=" + bankCode + ", depositBankCode=" + depositBankCode + ", depositAccNo=" + depositAccNo
+				+ "]";
 	}
+
+	
 	
 
 	

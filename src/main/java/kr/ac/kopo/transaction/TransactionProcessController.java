@@ -13,26 +13,29 @@ public class TransactionProcessController implements Controller{
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		
 		String bankCode = request.getParameter("bankCode");
+		System.out.println(bankCode);
+		String DbankCode = request.getParameter("DbankCode");
 		String accNo = request.getParameter("accNo");
-		String deAccNO = (request.getParameter("acc_no")).replaceAll(bankCode, "");
+		String deAccNO = request.getParameter("acc_no");
 		String transType = "이체";
 		long transAmount = Long.parseLong(request.getParameter("amount"));
 		String transInfo = request.getParameter("info");
 		
 		TransactionVO vo = new TransactionVO();
 		vo.setBankCode(bankCode);
+		vo.setDepositBankCode(DbankCode);
 		vo.setDepositAccNo(deAccNO);
 		vo.setTransType(transType);
 		vo.setTransInfo(transInfo);
 		vo.setTransAmount(transAmount);
-		vo.setAccNo(deAccNO);
+		vo.setAccNo(accNo);
 		
 		
 		TransactionDAO dao = new TransactionDAO();
-		int ddd;
+		int rcheck;
 		try {
-			ddd = dao.transfer(accNo, deAccNO, transAmount);
-			System.out.println(ddd);
+			rcheck = dao.bankSelect(DbankCode, accNo, deAccNO, transAmount);
+			System.out.println(rcheck);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

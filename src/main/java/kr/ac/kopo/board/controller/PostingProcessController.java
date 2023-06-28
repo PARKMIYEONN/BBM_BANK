@@ -36,7 +36,7 @@ public class PostingProcessController implements Controller{
 		
 		
 		
-		return "/index.jsp";
+		return "redirect:/boardlist.do";
 	}
 	
 	
