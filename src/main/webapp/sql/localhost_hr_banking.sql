@@ -70,7 +70,7 @@ DROP TABLE   B_TRANSACTION  ;
 CREATE TABLE   B_TRANSACTION   (
 	  T_CD  	NUMBER		NOT NULL,
 	  ACC_NO  	VARCHAR2(50)		NOT NULL,
-	  T_DATE  	DATE	DEFAULT TO_CHAR(SYSDATE, 'YYYY-MM-DD')	NOT NULL,
+	  T_DATE  	timestamp	DEFAULT current_timestamp	NOT NULL,
 	  T_TYPE  	VARCHAR2(10)		NOT NULL,
 	  T_AMOUNT  	NUMBER		NOT NULL,
 	  T_INFO  	CLOB		NOT NULL,
@@ -250,6 +250,10 @@ EXCEPTION
 END;
 /
 
+
+
+
+
 select * from bank_info;
 
 
@@ -315,6 +319,16 @@ select * from account @BjBank;
 
 ALTER TABLE b_user_info
 ADD is_open_banking NUMBER(1) DEFAULT 0 NOT NULL;
+
+SELECT ui.USER_NAME, t.T_CD, t.ACC_NO, t.T_AMOUNT, t.T_INFO,
+       TO_CHAR(t.t_date, 'YYYY-MM-DD HH24:MI:SS') AS t_date
+FROM B_USER_INFO ui
+JOIN B_ACCOUNT a ON ui.USER_ID = a.USER_ID
+JOIN B_TRANSACTION t ON a.ACC_NO = t.ACC_NO
+where t.acc_no = '18653972';
+
+
+
 
 
 

@@ -33,6 +33,8 @@
         <thead>
           <tr>
             <th>거래 날짜</th>
+            <th>메모</th>
+            <th>거래 구분</th>
             <th>거래 금액</th>
             
           </tr>
@@ -41,6 +43,8 @@
           <c:forEach var="history" items="${transactionList}">
             <tr>
               <td>${history.transDate}</td>
+              <td>${history.transInfo}</td>
+              <td>${history.transType}</td>
               <td>${history.transAmount}</td>
              
              

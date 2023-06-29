@@ -17,7 +17,6 @@ public class TransactionProcessController implements Controller{
 		String DbankCode = request.getParameter("DbankCode");
 		String accNo = request.getParameter("accNo");
 		String deAccNO = request.getParameter("acc_no");
-		String transType = "이체";
 		long transAmount = Long.parseLong(request.getParameter("amount"));
 		String transInfo = request.getParameter("info");
 		
@@ -25,7 +24,7 @@ public class TransactionProcessController implements Controller{
 		vo.setBankCode(bankCode);
 		vo.setDepositBankCode(DbankCode);
 		vo.setDepositAccNo(deAccNO);
-		vo.setTransType(transType);
+		
 		vo.setTransInfo(transInfo);
 		vo.setTransAmount(transAmount);
 		vo.setAccNo(accNo);

@@ -74,7 +74,7 @@ $(document).ready(function() {
     <div class="form-group">
       <label for="acc_no">이체할 계좌 번호</label>
       <input type="hidden" name="accNo" value="${accNo}">
-      <input type="hidden" name="info" value="${accNo}">
+      
       <input type="hidden" name="bankCode" value="${bankCode}">
       
       <input type="text" id="acc_no" name="acc_no" class="form-control" placeholder="이체할 계좌 번호를 입력하세요">
@@ -83,6 +83,10 @@ $(document).ready(function() {
     <div class="form-group">
       <label for="amount">이체 금액</label>
       <input type="text" id="amount" name="amount" class="form-control" placeholder="금액을 입력하세요">
+    </div>
+    <div class="form-group">
+      <label for="info">받는 통장 메모</label>
+      <input type="text" id="info" name="info" class="form-control" placeholder="받는 통장 메모">
     </div>
     <div class="form-group">
       <label for="password">계좌 비밀번호</label>

@@ -106,9 +106,14 @@ public class TransactionDAO {
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
 			pstmt.setString(1, vo.getAccNo());
 			System.out.println(vo.getAccNo());
-			pstmt.setString(2, vo.getTransType());
+			pstmt.setString(2, "출금");
 			pstmt.setLong(3, vo.getTransAmount());
-			pstmt.setString(4, vo.getTransInfo());
+			if(vo.getTransInfo().equals("")) {
+				pstmt.setString(4, this.getName(vo.getDepositAccNo()));
+				
+			}else {
+				pstmt.setString(4, vo.getTransInfo());
+			}
 			pstmt.setString(5, vo.getBankCode());
 			System.out.println(vo.getBankCode());
 			pstmt.setString(6, vo.getDepositBankCode());
@@ -133,7 +138,12 @@ public class TransactionDAO {
 			pstmt.setString(1, vo.getDepositAccNo());
 			pstmt.setString(2, "입금");
 			pstmt.setLong(3, vo.getTransAmount());
-			pstmt.setString(4, vo.getTransInfo());
+			if(vo.getTransInfo().equals("")) {
+				pstmt.setString(4, this.getName(vo.getAccNo()));
+				
+			}else {
+				pstmt.setString(4, vo.getTransInfo());
+			}
 			pstmt.setString(5, vo.getDepositBankCode());
 			pstmt.setString(6, vo.getBankCode());
 			pstmt.setString(7, vo.getAccNo());
@@ -152,7 +162,10 @@ public class TransactionDAO {
 		StringBuilder sql = new StringBuilder();
 		List<TransactionVO> transactionList = new ArrayList<>();
 		TransactionVO tvo = null;
-		sql.append("select * from b_transaction where acc_no = ?" );
+		sql.append("SELECT t_cd, acc_no, TO_CHAR(t_date, 'YYYY-MM-DD HH24:MI:SS') AS t_date, t_type, t_amount, t_info, bank_cd, deposit_bank_cd, deposit_account");
+		sql.append(" FROM b_transaction ");	
+		sql.append(" where acc_no = ? ");
+		
 		try (Connection conn = new ConnectionFactory().getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
 			pstmt.setString(1, accNo);
@@ -178,6 +191,25 @@ public class TransactionDAO {
 			e.printStackTrace();
 		}
 		return transactionList;
+	}
+	
+	public String getName(String accNo) {
+		StringBuilder sql = new StringBuilder();
+		String userName = null;
+		sql.append("select ui.user_name, a.acc_no from b_account a join b_user_info ui on a.user_id = ui.user_id where acc_no = ?");
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, accNo);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				userName = rs.getString("user_name");
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userName;
 	}
 	
 	
