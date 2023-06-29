@@ -194,6 +194,8 @@ CREATE SEQUENCE sequence_TransNO nocache;
 
 alter table b_products modify (end_date null);
 
+
+
 select * from b_products;
 
 select * from b_account;
@@ -320,12 +322,19 @@ select * from account @BjBank;
 ALTER TABLE b_user_info
 ADD is_open_banking NUMBER(1) DEFAULT 0 NOT NULL;
 
-SELECT ui.USER_NAME, t.T_CD, t.ACC_NO, t.T_AMOUNT, t.T_INFO,
+SELECT ui.USER_NAME, t.T_CD, t.ACC_NO, t.t_date,t.T_AMOUNT, t.T_INFO,
        TO_CHAR(t.t_date, 'YYYY-MM-DD HH24:MI:SS') AS t_date
 FROM B_USER_INFO ui
 JOIN B_ACCOUNT a ON ui.USER_ID = a.USER_ID
 JOIN B_TRANSACTION t ON a.ACC_NO = t.ACC_NO
-where t.acc_no = '18653972';
+where t.DEPOSIT_ACCOUNT = '18653972' or t.acc_no = '18653972';
+
+select * from b_transaction where acc_no = '28195704';
+
+SELECT ui.USER_NAME
+FROM B_USER_INFO ui
+JOIN B_ACCOUNT a ON ui.USER_ID = a.USER_ID
+where a.acc_no = '18653972';
 
 
 
