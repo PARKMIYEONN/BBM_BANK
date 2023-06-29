@@ -19,7 +19,7 @@
     <a class="nav-link" href="/MYBANK/myaccount.do">계좌 조회</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
+      <a class="nav-link" href="/MYBANK/openbanking.do">오픈뱅킹</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#">Disabled</a>

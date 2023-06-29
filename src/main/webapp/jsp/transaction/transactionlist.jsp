@@ -19,7 +19,7 @@
     <a class="nav-link" href="/MYBANK/myaccount.do">계좌 조회</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/MYBANK/openbanking.do">오픈뱅킹</a>
+      <a class="nav-link" href="/MYBANK/openbanking.do">오픈뱅킹</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#">Disabled</a>
@@ -28,35 +28,22 @@
 <section class="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <h1 class="text-center">내 계좌 조회</h1>
-      <p>총 계좌 잔액 : ${ totalbalance }</p>
+      <h1 class="text-center">거래내역</h1>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>계좌번호</th>
-            <th>상품이름</th>
-            <th>은행이름</th>
-            <th>잔액</th>
-            <th>생성일</th>
-            <th>조회</th>
-            <th>이체</th>
+            <th>거래 날짜</th>
+            <th>거래 금액</th>
+            
           </tr>
         </thead>
         <tbody>
-          <c:forEach var="account" items="${myAccount}">
+          <c:forEach var="history" items="${transactionList}">
             <tr>
-              <td>${account.bankCode}-${account.accNo}</td>
-              <td>${account.productName}</td>
-              <td>${account.accType}</td>
-              <td>${account.balance}</td>
-              <td>${account.accCreateDate}</td>
-              <td><form method="post" action="/MYBANK/transactionlist.do">
-              <input type="hidden" name="accNo" value="${account.accNo}">
-              <button>조회</button></form></td>
-              <td><form method="post" action="/MYBANK/transaction.do">
-              <input type="hidden" name="accNo" value="${account.accNo}">
-              <input type="hidden" name="bankCode" value="${account.bankCode}">      
-              <button>이체</button></form></td>
+              <td>${history.transDate}</td>
+              <td>${history.transAmount}</td>
+             
+             
             </tr>
           </c:forEach>
         </tbody>

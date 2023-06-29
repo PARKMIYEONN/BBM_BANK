@@ -10,7 +10,8 @@ public class OpenBankingController implements Controller{
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		
-		return null;
+		
+		return "/jsp/openbanking/openbanking.jsp";
 	}
 
 	

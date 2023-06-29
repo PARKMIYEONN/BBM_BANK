@@ -41,6 +41,7 @@ public class TransactionProcessController implements Controller{
 			e.printStackTrace();
 		}
 		dao.transactionHistory(vo);
+		dao.depositHistory(vo);
 		
 		
 		return "redirect:/myaccount.do";

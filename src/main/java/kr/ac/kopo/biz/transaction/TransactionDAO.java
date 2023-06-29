@@ -3,7 +3,10 @@ package kr.ac.kopo.biz.transaction;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.ac.kopo.util.ConnectionFactory;
 
@@ -118,6 +121,63 @@ public class TransactionDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void depositHistory(TransactionVO vo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into b_transaction(t_cd, acc_no, t_type, t_amount, t_info, bank_cd, deposit_bank_cd, deposit_account) ");
+		sql.append(" values(sequence_TransNO.nextval, ?, ?, ?, ?, ? ,? , ?) ");
+		
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, vo.getDepositAccNo());
+			pstmt.setString(2, "입금");
+			pstmt.setLong(3, vo.getTransAmount());
+			pstmt.setString(4, vo.getTransInfo());
+			pstmt.setString(5, vo.getDepositBankCode());
+			pstmt.setString(6, vo.getBankCode());
+			pstmt.setString(7, vo.getAccNo());
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public List<TransactionVO> transactionList(String accNo){
+		StringBuilder sql = new StringBuilder();
+		List<TransactionVO> transactionList = new ArrayList<>();
+		TransactionVO tvo = null;
+		sql.append("select * from b_transaction where acc_no = ?" );
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, accNo);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				tvo = new TransactionVO();
+				tvo.setAccNo(rs.getString("acc_no"));
+				tvo.setBankCode(rs.getString("bank_cd"));
+				tvo.setDepositAccNo(rs.getString("deposit_account"));
+				tvo.setDepositBankCode(rs.getString("deposit_bank_cd"));
+				tvo.setTransAmount(rs.getLong("t_amount"));
+				tvo.setTransCode(rs.getInt("t_cd"));
+				tvo.setTransDate(rs.getString("t_date"));
+				tvo.setTransInfo(rs.getString("t_info"));
+				tvo.setTransType(rs.getString("t_type"));
+				transactionList.add(tvo);
+				
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return transactionList;
 	}
 	
 	

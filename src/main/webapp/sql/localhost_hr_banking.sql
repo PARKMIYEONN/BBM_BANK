@@ -202,12 +202,15 @@ select * from b_transaction;
 ALTER TABLE b_transaction
 ADD deposit_account VARCHAR(50);
 
+select * from b_transaction where acc_no = '18752936' or deposit_account = '18752936';
+
 
 insert into bank_info (bank_cd, bank_nm) values('0504', 'ezi은행');
 insert into bank_info (bank_cd, bank_nm) values('1003', 'BBM은행');
 insert into bank_info (bank_cd, bank_nm) values('0413', 'BjBank');
 insert into bank_info (bank_cd, bank_nm) values('9999', 'KKP은행');
 
+update bank_info set bank_cd = '0413' where bank_nm = 'BjBank';
 
 CREATE OR REPLACE PROCEDURE transfer (
   sender_account_number IN b_account.acc_no%TYPE, 
@@ -247,6 +250,7 @@ EXCEPTION
 END;
 /
 
+select * from bank_info;
 
 
 CREATE OR REPLACE PROCEDURE transfer_BJ (
@@ -308,6 +312,11 @@ CREATE DATABASE LINK BjBank
 )';
 
 select * from account @BjBank;
+
+ALTER TABLE b_user_info
+ADD is_open_banking NUMBER(1) DEFAULT 0 NOT NULL;
+
+
 
 commit;
 

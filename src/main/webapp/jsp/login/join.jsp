@@ -21,6 +21,11 @@
   .text-center {
     text-align: center;
   }
+  
+   span {
+    color: red;
+    font-size: smaller;
+  }
 </style>
 </head>
 <body>
@@ -30,12 +35,14 @@
 // 아이디 유효성 검사 함수
 function validateId() {
     var id = $("#id").val();
-    var idRegex = /^[a-zA-Z0-9]{1,16}$/;
+    var idRegex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{3,16}$/;
     if (!idRegex.test(id)) {
-        $("#id").addClass("is-invalid");
+        $("#id").addClass("is-invalid"); 
+        $("#idErrorMessage").text("3자리 이상 영소문자와 숫자 조합으로 입력하세요");
         return false;
     } else {
         $("#id").removeClass("is-invalid");
+        $("#idErrorMessage").text("");
         return true;
     }
 }
@@ -46,9 +53,11 @@ function validatePassword() {
     var passwordRegex = /^[a-zA-Z0-9]{1,16}$/;
     if (!passwordRegex.test(password)) {
         $("#password").addClass("is-invalid");
+        $("#passwordErrorMessage").text("영문과 숫자만 입력 가능합니다");
         return false;
     } else {
         $("#password").removeClass("is-invalid");
+        $("#passwordErrorMessage").text("");
         return true;
     }
 }
@@ -58,12 +67,43 @@ function checkPassword(){
 	var chkpassword = $("#chkpassword").val();
 	if(password !== chkpassword){
 		$("#chkpassword").addClass("is-invalid");
+		$("#chkpasswordErrorMessage").text("비밀번호가 다릅니다");
 		return false;
 	} else {
 		$("#chkpassword").removeClass("is-invalid");
+		$("#chkpasswordErrorMessage").text("");
 		return true;	
 	}
 }
+
+function validatePhoneNumber() {
+    var phoneNumber = $("#phone").val();
+    var phoneNumberRegex = /^01[0-9]{1}-[0-9]{4}-[0-9]{4}$/;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+        $("#phone").addClass("is-invalid");
+        $("#phoneErrorMessage").text("-를 포함한 번호를 입력하세요");
+        return false;
+    } else {
+        $("#phone").removeClass("is-invalid");
+        $("#phoneErrorMessage").text("");
+        return true;
+    }
+}
+
+function validateEmail() {
+    var email = $("#email").val();
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        $("#email").addClass("is-invalid");
+        $("#emailErrorMessage").text("이메일 형식이 아닙니다");
+        return false;
+    } else {
+        $("#email").removeClass("is-invalid");
+        $("#emailErrorMessage").text("");
+        return true;
+    }
+}
+
 
 function checkSubmit() {
     var id = $("#id").val();
@@ -89,6 +129,8 @@ function checkSubmit() {
     return false;
 }
 
+
+
 $(document).ready(function() {
     // 아이디와 비밀번호 입력 필드의 유효성 검사
     $("#id").on("input", function() {
@@ -97,6 +139,14 @@ $(document).ready(function() {
 
     $("#password").on("input", function() {
         validatePassword();
+    });
+    
+    $("#phone").on("input", function() {
+        validatePhoneNumber();
+    });
+    
+    $("#email").on("input", function() {
+        validateEmail();
     });
     
     $("#chkpassword").on("input", function() {
@@ -166,14 +216,17 @@ $(document).ready(function() {
     <div class="form-group">
       <label for="id">아이디</label>
       <input type="text" id="id" name="id" class="form-control" placeholder="아이디" >
+      <span id="idErrorMessage"></span>
     </div>
     <div class="form-group">
       <label for="password">비밀번호</label>
       <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호">
+      <span id="passwordErrorMessage"></span>
     </div>
      <div class="form-group">
       <label for="chkpassword">비밀번호 확인</label>
       <input type="password" id="chkpassword" name="chkpassword" class="form-control" placeholder="비밀번호 확인">
+       <span id="chkpasswordErrorMessage"></span>
     </div>
     <div class="form-group">
       <label for="name">이름</label>
@@ -182,6 +235,7 @@ $(document).ready(function() {
     <div class="form-group">
       <label for="email">이메일</label>
       <input type="email" id="email" name="email" class="form-control" placeholder="이메일">
+       <span id="emailErrorMessage"></span>
     </div>
     <div class="form-group">
       <label for="jumin1">주민등록번호</label>
@@ -191,6 +245,7 @@ $(document).ready(function() {
     <div class="form-group">
       <label for="phone">전화번호</label>
       <input type="tel" id="phone" name="phone" class="form-control" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+      <span id="phoneErrorMessage"></span>
     </div>
     <div class="form-group">
       <label for="sample6_postcode">우편번호</label>

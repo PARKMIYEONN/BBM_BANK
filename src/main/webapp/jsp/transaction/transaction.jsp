@@ -17,9 +17,11 @@ function validatePassword() {
     var passwordRegex = /^\d{6}$/;
     if (!passwordRegex.test(password)) {
         $("#password").addClass("is-invalid");
+        $("#passwordErrorMessage").text("숫자만 입력 가능합니다");
         return false;
     } else {
         $("#password").removeClass("is-invalid");
+        $("#passwordErrorMessage").text("");
         return true;
     }
 }
@@ -84,7 +86,8 @@ $(document).ready(function() {
     </div>
     <div class="form-group">
       <label for="password">계좌 비밀번호</label>
-      <input type="password" id="password" name="password" class="form-control" placeholder="6자리 숫자 입력">
+      <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호 6자리를 입력하세요">
+      <span id="passwordErrorMessage"></span>
     </div>
    
     
