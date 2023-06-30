@@ -11,11 +11,14 @@ public class TransactionVO {
 	private String bankCode;
 	private String depositBankCode;
 	private String depositAccNo;
+	private long preBalance;
 	
 
 
+	
+
 	public TransactionVO(int transCode, String accNo, String transDate, String transType, long transAmount,
-			String transInfo, String bankCode, String depositBankCode, String depositAccNo) {
+			String transInfo, String bankCode, String depositBankCode, String depositAccNo, long preBalance) {
 		super();
 		this.transCode = transCode;
 		this.accNo = accNo;
@@ -26,6 +29,15 @@ public class TransactionVO {
 		this.bankCode = bankCode;
 		this.depositBankCode = depositBankCode;
 		this.depositAccNo = depositAccNo;
+		this.preBalance = preBalance;
+	}
+
+	public long getPreBalance() {
+		return preBalance;
+	}
+
+	public void setPreBalance(long preBalance) {
+		this.preBalance = preBalance;
 	}
 
 	public String getDepositBankCode() {
@@ -111,8 +123,10 @@ public class TransactionVO {
 		return "TransactionVO [transCode=" + transCode + ", accNo=" + accNo + ", transDate=" + transDate
 				+ ", transType=" + transType + ", transAmount=" + transAmount + ", transInfo=" + transInfo
 				+ ", bankCode=" + bankCode + ", depositBankCode=" + depositBankCode + ", depositAccNo=" + depositAccNo
-				+ "]";
+				+ ", preBalance=" + preBalance + "]";
 	}
+
+	
 
 	
 	

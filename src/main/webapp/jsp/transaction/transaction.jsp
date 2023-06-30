@@ -26,11 +26,41 @@ function validatePassword() {
     }
 }
 
+function checkSubmit() {
+    var password = $("#password").val();
+    var accNo = $("#accNo").val();
+    // 유효성 검사 수행
+    if (validatePassword()) {
+        // 유효성 검사 통과 시 AJAX 요청
+        console.log('duplicate check start...')
+        $.ajax({
+            url: "/MYBANK/checktransactionpassword.do", // 중복 아이디 확인을 위한 서버 요청 URL
+            method: "POST",
+            data: {password: password,
+            		accNo: accNo}, // 폼 데이터 직렬화하여 전송
+            success: function(response) {
+                response = response.trim();
+                if (response === "fail") {
+                    alert("비밀번호가 틀립니다");
+                } else if (response === "success") {
+                    // 유효성 검사와 중복 아이디 확인 모두 통과 시 회원가입 진행
+                    $("#transactionForm")[0].submit();
+                }
+            }
+        });
+    }
+    return false;
+}
+
 $(document).ready(function() {
 	 
     $("#password").on("input", function() {
         validatePassword();
     });
+    
+    $("#transactionForm").on("submit", function(event){
+    	event.preventDefault();
+    })
 
 });
 </script>
@@ -57,7 +87,7 @@ $(document).ready(function() {
 </ul>
 
 <h1 class="text-center">계좌 이체</h1>
-  <form action="transactionprocess.do" method="POST" >
+  <form action="transactionprocess.do" method="POST" name="transactionForm" id="transactionForm" onsubmit="return checkSubmit()">
   
 <label for="bank-select">이체 은행:</label>
 <select id="bank-select" name="DbankCode">
@@ -73,7 +103,8 @@ $(document).ready(function() {
 
     <div class="form-group">
       <label for="acc_no">이체할 계좌 번호</label>
-      <input type="hidden" name="accNo" value="${accNo}">
+      <input type="hidden" id="accNo" name="accNo" value="${accNo}">
+      <input type="hidden" id="balance" name="balance" value="${balance}">
       
       <input type="hidden" name="bankCode" value="${bankCode}">
       

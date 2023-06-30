@@ -54,6 +54,7 @@
               <input type="hidden" name="accNo" value="${account.accNo}">
               <button>조회</button></form></td>
               <td><form method="post" action="/MYBANK/transaction.do">
+              <input type="hidden" name="balance" value="${account.balance}">
               <input type="hidden" name="accNo" value="${account.accNo}">
               <input type="hidden" name="bankCode" value="${account.bankCode}">      
               <button>이체</button></form></td>

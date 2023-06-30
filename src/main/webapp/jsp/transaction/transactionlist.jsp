@@ -32,10 +32,11 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>거래 날짜</th>
+            <th>거래 일시</th>
             <th>메모</th>
             <th>거래 구분</th>
             <th>거래 금액</th>
+            <th>계좌 잔액</th>
             
           </tr>
         </thead>
@@ -46,6 +47,7 @@
               <td>${history.transInfo}</td>
               <td>${history.transType}</td>
               <td>${history.transAmount}</td>
+              <td>${history.preBalance}</td>
              
              
             </tr>

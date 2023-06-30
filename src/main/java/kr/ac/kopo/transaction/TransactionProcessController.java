@@ -19,6 +19,7 @@ public class TransactionProcessController implements Controller{
 		String deAccNO = request.getParameter("acc_no");
 		long transAmount = Long.parseLong(request.getParameter("amount"));
 		String transInfo = request.getParameter("info");
+		long preBalance = Long.parseLong(request.getParameter("balance"));
 		
 		TransactionVO vo = new TransactionVO();
 		vo.setBankCode(bankCode);
@@ -28,19 +29,19 @@ public class TransactionProcessController implements Controller{
 		vo.setTransInfo(transInfo);
 		vo.setTransAmount(transAmount);
 		vo.setAccNo(accNo);
+		vo.setPreBalance(preBalance);
 		
 		
 		TransactionDAO dao = new TransactionDAO();
 		int rcheck;
 		try {
-			rcheck = dao.bankSelect(DbankCode, accNo, deAccNO, transAmount);
+			rcheck = dao.bankSelect(vo);
 			System.out.println(rcheck);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		dao.transactionHistory(vo);
-		dao.depositHistory(vo);
+
 		
 		
 		return "redirect:/myaccount.do";

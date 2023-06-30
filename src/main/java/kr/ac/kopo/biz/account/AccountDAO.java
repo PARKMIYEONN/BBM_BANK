@@ -103,5 +103,31 @@ public class AccountDAO {
         
         return rnum.toString();
     }
+	
+	public boolean checkPassword(String password, String accNo) {
+		StringBuilder sql = new StringBuilder();
+		String accPW = null;
+		sql.append("select acc_password from b_account where acc_no = ?");
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, accNo);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				accPW = rs.getString("acc_password");
+				System.out.println("확인해 보자");
+				System.out.println(accPW.equals(password));
+				if(accPW.equals(password)) {
+					
+					return true;
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
 
 }
