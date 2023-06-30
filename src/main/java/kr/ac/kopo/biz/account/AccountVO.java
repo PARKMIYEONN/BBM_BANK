@@ -6,12 +6,23 @@ public class AccountVO {
 	private String userId;
 	private String productName;
 	private String bankCode;
+	private String bankName;
 	private String accType;
 	private int dormantAcc;
 	private long balance;
 	private String accCreateDate;
 	private String accPassword;
 	
+	
+	
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
 	public String getAccNo() {
 		return accNo;
 	}
@@ -84,30 +95,35 @@ public class AccountVO {
 		this.accPassword = accPassword;
 	}
 	
-	public AccountVO(String accNo, String userId, String productName, String bankCode, String accType, int dormantAcc,
-			long balance, String accCreateDate, String accPassword) {
+	
+	
+	public AccountVO(String accNo, String userId, String productName, String bankCode, String bankName, String accType,
+			int dormantAcc, long balance, String accCreateDate, String accPassword) {
 		super();
 		this.accNo = accNo;
 		this.userId = userId;
 		this.productName = productName;
 		this.bankCode = bankCode;
+		this.bankName = bankName;
 		this.accType = accType;
 		this.dormantAcc = dormantAcc;
 		this.balance = balance;
 		this.accCreateDate = accCreateDate;
 		this.accPassword = accPassword;
 	}
-	
+
 	public AccountVO() {
 		super();
 	}
-	
+
 	@Override
 	public String toString() {
-		return "accountVO [accNo=" + accNo + ", userId=" + userId + ", productName=" + productName + ", bankCode="
-				+ bankCode + ", accType=" + accType + ", dormantAcc=" + dormantAcc + ", balance=" + balance
-				+ ", accCreateDate=" + accCreateDate + ", accPassword=" + accPassword + "]";
+		return "AccountVO [accNo=" + accNo + ", userId=" + userId + ", productName=" + productName + ", bankCode="
+				+ bankCode + ", bankName=" + bankName + ", accType=" + accType + ", dormantAcc=" + dormantAcc
+				+ ", balance=" + balance + ", accCreateDate=" + accCreateDate + ", accPassword=" + accPassword + "]";
 	}
+	
+
 	
 	
 }

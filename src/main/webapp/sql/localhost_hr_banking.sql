@@ -317,7 +317,38 @@ CREATE DATABASE LINK BjBank
         (SERVICE_NAME = xe))
 )';
 
+CREATE DATABASE LINK eziBank
+ CONNECT TO hr
+ IDENTIFIED BY hr
+ USING
+'(DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.31.9.171)(PORT = 1521))
+      (CONNECT_DATA =
+        (SERVER = DEDICATED)
+        (SERVICE_NAME = xe))
+)';
+
+CREATE DATABASE LINK KKPBank
+ CONNECT TO hr
+ IDENTIFIED BY hr
+ USING
+'(DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.31.9.180)(PORT = 1521))
+      (CONNECT_DATA =
+        (SERVER = DEDICATED)
+        (SERVICE_NAME = xe))
+)';
+select * from b_user_info;
+
+select * from member @BjBank;
+select * from product @BjBank;
 select * from account @BjBank;
+select * from account @KKPBank;
+select * from account @eziBank;
+
+select * from history @BjBank;
+
+select ui.user_name, a.acc_no from b_account a join b_user_info ui on a.user_id = ui.user_id where acc_no = ?
 
 ALTER TABLE b_user_info
 ADD is_open_banking NUMBER(1) DEFAULT 0 NOT NULL;
@@ -336,9 +367,11 @@ FROM B_USER_INFO ui
 JOIN B_ACCOUNT a ON ui.USER_ID = a.USER_ID
 where a.acc_no = '18653972';
 
+ALTER TABLE b_transaction
+modify t_pre_balance default 0; 
 
-
-
+insert into history@BjBank(no, bank_cd, account_id, deposit_hs ,tr_bank , tr_account, history_bl)
+ values(HISTORY_NO.NEXTVAL@BjBank,
 
 
 commit;

@@ -29,7 +29,7 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <h1 class="text-center">내 계좌 조회</h1>
-      <p>총 계좌 잔액 : ${ totalbalance }</p>
+      <p>총 계좌 잔액 : </p>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
@@ -43,13 +43,13 @@
           </tr>
         </thead>
         <tbody>
-          <c:forEach var="account" items="${myAccount}">
+          <c:forEach var="accountBJ" items="${accountListBJ}">
             <tr>
-              <td>${account.bankCode}-${account.accNo}</td>
-              <td>${account.productName}</td>
-              <td>${account.accType}</td>
-              <td>${account.balance}</td>
-              <td>${account.accCreateDate}</td>
+              <td>${accountBJ.accNo}</td>
+              <td>${accountBJ.productName}</td>
+              <td>${accountBJ.bankName}</td>
+              <td>${accountBJ.balance}</td>
+              <td>${accountBJ.accCreateDate}</td>
               <td><form method="post" action="/MYBANK/transactionlist.do">
               <input type="hidden" name="accNo" value="${account.accNo}">
               <button>조회</button></form></td>

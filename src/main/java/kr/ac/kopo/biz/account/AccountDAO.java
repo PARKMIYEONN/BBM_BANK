@@ -129,5 +129,38 @@ public class AccountDAO {
 		return false;
 		
 	}
+	
+	public List<AccountVO> accountListBJ(String email){
+		StringBuilder sql = new StringBuilder();
+		sql.append("select ac.account_id, pr.product_nm, ac.account_bl, ac.account_date");
+		sql.append(" from account @BjBank ac ");
+		sql.append(" join product @BjBank pr on ac.product_cd = pr.product_cd ");
+		sql.append(" join member @BjBank m on ac.member_id = m.member_id ");
+		sql.append(" where m.member_em = ? ");
+		List<AccountVO> accountList = new ArrayList<>();
+		AccountVO account = null;
+		
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				account = new AccountVO();
+				account.setAccNo(rs.getString("account_id"));
+				account.setProductName(rs.getString("product_nm"));
+				account.setBankName("BjBank");
+				account.setBalance(rs.getLong("account_bl"));
+				account.setAccCreateDate(rs.getString("account_date"));
+				
+				accountList.add(account);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return accountList;
+	}
 
 }
