@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import kr.ac.kopo.biz.user.UserVO;
 import kr.ac.kopo.util.ConnectionFactory;
 
 public class AccountDAO {
@@ -130,6 +131,41 @@ public class AccountDAO {
 		
 	}
 	
+	public boolean checkAccountInfo(AccountVO account, UserVO user) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select ui.user_name, ui.user_email, ui.user_birthday, ui.user_tel, a.acc_password ");
+		sql.append(" from b_user_info ui ");
+		sql.append(" join b_account a on ui.user_id = a.user_id ");
+		sql.append(" where a.acc_no = ? ");
+	
+		String accPW = null;
+		String userName = null;
+		String email = null;
+		String birthday = null;
+		String phone = null;
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, account.getAccNo());
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				accPW = rs.getString("acc_password");
+				userName = rs.getString("user_name");
+				email = rs.getString("user_email");
+				birthday = rs.getString("user_birthday");
+				phone = rs.getString("user_tel");
+				
+				if(accPW.equals(account.getAccPassword()) && userName.equals(user.getUserName()) && email.equals(user.getUserEmail()) && birthday.equals(user.getUserBirthday()) && phone.equals(user.getUserTel())) {
+					return true;
+				}
+			}
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;		
+	}
+	
 	public List<AccountVO> accountListBJ(String email){
 		StringBuilder sql = new StringBuilder();
 		sql.append("select ac.account_id, pr.product_nm, ac.account_bl, ac.account_date");
@@ -161,6 +197,18 @@ public class AccountDAO {
 			e.printStackTrace();
 		}
 		return accountList;
+	}
+	
+	public void reactivateDA(String accNo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update b_account set dormant_acc = 0 where acc_no = ? ");
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, accNo);
+			pstmt.executeUpdate();			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

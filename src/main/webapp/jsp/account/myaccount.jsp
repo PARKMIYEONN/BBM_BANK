@@ -53,11 +53,21 @@
               <td><form method="post" action="/MYBANK/transactionlist.do">
               <input type="hidden" name="accNo" value="${account.accNo}">
               <button>조회</button></form></td>
+              <c:if test="${ account.dormantAcc eq '0' }">
               <td><form method="post" action="/MYBANK/transaction.do">
               <input type="hidden" name="balance" value="${account.balance}">
               <input type="hidden" name="accNo" value="${account.accNo}">
               <input type="hidden" name="bankCode" value="${account.bankCode}">      
               <button>이체</button></form></td>
+              </c:if>
+              
+              <c:if test="${ account.dormantAcc eq '1' }">
+              <td><form method="post" action="/MYBANK/transaction.do">
+              <input type="hidden" name="balance" value="${account.balance}">
+              <input type="hidden" name="accNo" value="${account.accNo}">
+              <input type="hidden" name="bankCode" value="${account.bankCode}">      
+              <button>휴면해제하기</button></form></td>
+              </c:if>
             </tr>
           </c:forEach>
         </tbody>

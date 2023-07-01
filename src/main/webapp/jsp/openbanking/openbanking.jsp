@@ -28,7 +28,7 @@
 <section class="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <h1 class="text-center">내 계좌 조회</h1>
+      <h1 class="text-center">오픈뱅킹 계좌 조회</h1>
       <p>총 계좌 잔액 : </p>
       <table class="table table-striped table-hover">
         <thead>
