@@ -43,13 +43,13 @@
           </tr>
         </thead>
         <tbody>
-          <c:forEach var="accountBJ" items="${accountListBJ}">
+          <c:forEach var="account" items="${accountList}">
             <tr>
-              <td>${accountBJ.accNo}</td>
-              <td>${accountBJ.productName}</td>
-              <td>${accountBJ.bankName}</td>
-              <td>${accountBJ.balance}</td>
-              <td>${accountBJ.accCreateDate}</td>
+              <td>${account.accNo}</td>
+              <td>${account.productName}</td>
+              <td>${account.bankName}</td>
+              <td>${account.balance}</td>
+              <td>${account.accCreateDate}</td>
               <td><form method="post" action="/MYBANK/transactionlist.do">
               <input type="hidden" name="accNo" value="${account.accNo}">
               <button>조회</button></form></td>

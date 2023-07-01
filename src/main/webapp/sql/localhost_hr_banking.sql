@@ -370,8 +370,16 @@ where a.acc_no = '18653972';
 ALTER TABLE b_transaction
 modify t_pre_balance default 0; 
 
-insert into history@BjBank(no, bank_cd, account_id, deposit_hs ,tr_bank , tr_account, history_bl)
- values(HISTORY_NO.NEXTVAL@BjBank,
+select ui.user_name, ui.user_email, replace(ui.user_birthday, '/', '') as birthday, ui.user_tel, a.acc_password
+from b_user_info ui
+join b_account a on ui.user_id = a.user_id
+where a.acc_no = '18653972';
+
+select * from b_account;
+
+update b_account set dormant_acc = '1' where acc_no = '28195704';
+
+
 
 
 commit;

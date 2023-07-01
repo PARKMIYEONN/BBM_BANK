@@ -4,26 +4,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import kr.ac.kopo.biz.account.AccountDAO;
-import kr.ac.kopo.biz.account.AccountVO;
-import kr.ac.kopo.biz.user.UserVO;
+import kr.ac.kopo.biz.bank.BankDAO;
+import kr.ac.kopo.biz.bank.BankVO;
 import kr.ac.kopo.controller.Controller;
 
 public class OpenBankingController implements Controller{
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
-		
-		HttpSession session = request.getSession();
-		UserVO user = (UserVO)session.getAttribute("loginUser");
-		AccountDAO dao = new AccountDAO();
-		List<AccountVO> accountListBJ =  dao.accountListBJ(user.getUserEmail());
-		
-		request.setAttribute("accountListBJ", accountListBJ);
-		
-		return "/jsp/openbanking/openbanking.jsp";
+
+		BankDAO dao = new BankDAO();
+		List<BankVO> bankList = dao.bankList();
+		request.setAttribute("bankList", bankList);
+		return "/jsp/openbanking/selectbank.jsp";
 	}
 
 	

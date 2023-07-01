@@ -14,6 +14,19 @@ import kr.ac.kopo.util.ConnectionFactory;
 
 public class AccountDAO {
 	
+	public List<AccountVO> selectbankaccountlist(String email , String bankCode){
+		List<AccountVO> accountList = null;
+		switch(bankCode) {
+		case "0413" : accountList =  this.accountListBJ(email);
+					break;
+		case "0504" : accountList =  this.accountListezi(email);
+					break;
+		case "9999" : accountList =  this.accountListKKP(email);
+					break;
+		}
+		return accountList;
+	}
+	
 	public void newAccount(AccountVO vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into b_account(acc_no, user_id, product_name, bank_cd, acc_type, balance, acc_password) ");
@@ -192,6 +205,71 @@ public class AccountDAO {
 				account.setBankName("BjBank");
 				account.setBalance(rs.getLong("account_bl"));
 				account.setAccCreateDate(rs.getString("account_date"));
+				
+				accountList.add(account);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return accountList;
+	}
+	
+	public List<AccountVO> accountListezi(String email){
+		StringBuilder sql = new StringBuilder();
+		sql.append("select ac.acc_no, ac.item_name, ac.balance, ac.ac_date");
+		sql.append(" from account @eziBank ac ");
+		sql.append(" join bk_user @eziBank u on ac.user_id = u.user_id ");
+		sql.append(" where u.user_email = ? ");
+		List<AccountVO> accountList = new ArrayList<>();
+		AccountVO account = null;
+		
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				account = new AccountVO();
+				account.setAccNo(rs.getString("acc_no"));
+				account.setProductName(rs.getString("item_name"));
+				account.setBankName("ezi은행");
+				account.setBalance(rs.getLong("balance"));
+				account.setAccCreateDate(rs.getString("ac_date"));
+				
+				accountList.add(account);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return accountList;
+	}
+	
+	public List<AccountVO> accountListKKP(String email){
+		StringBuilder sql = new StringBuilder();
+		sql.append("select ac.ac_number, p.pd_name, ac.ac_money, ac.ac_op_date");
+		sql.append(" from account @KKPBank ac ");
+		sql.append(" join financial_product @KKPBank p on ac.pd_number = p.pd_number ");
+		sql.append(" join user_info @KKPBank u on ac.user_id = u.user_id ");
+		sql.append(" where u.email = ? ");
+		List<AccountVO> accountList = new ArrayList<>();
+		AccountVO account = null;
+		
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				account = new AccountVO();
+				account.setAccNo(rs.getString("ac_number"));
+				account.setProductName(rs.getString("pd_name"));
+				account.setBankName("KKP은행");
+				account.setBalance(rs.getLong("ac_money"));
+				account.setAccCreateDate(rs.getString("ac_op_date"));
 				
 				accountList.add(account);
 			}
