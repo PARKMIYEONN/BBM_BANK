@@ -11,12 +11,20 @@ public class CheckAccountInfoController implements Controller{
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
-
+		
+		String accNo = request.getParameter("accNo");
 		String accPassword = request.getParameter("accpassword");
 		String userName = request.getParameter("name");
 		String userEmail = request.getParameter("email");
-		String birthday = request.getParameter("jumin1");
+		String birthday = request.getParameter("birthday");
 		String phoneNo = request.getParameter("phone");
+		
+		System.out.println(accNo);
+		System.out.println(accPassword);
+		System.out.println(userName);
+		System.out.println(userEmail);
+		System.out.println(birthday);
+		System.out.println(phoneNo);
 		
 		UserVO vo = new UserVO();
 		vo.setUserName(userName);
@@ -26,6 +34,7 @@ public class CheckAccountInfoController implements Controller{
 		
 		AccountVO avo = new AccountVO();
 		avo.setAccPassword(accPassword);
+		avo.setAccNo(accNo);
 		
 		AccountDAO dao = new AccountDAO();
 		boolean ismatched = dao.checkAccountInfo(avo, vo);

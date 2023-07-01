@@ -133,7 +133,7 @@ public class AccountDAO {
 	
 	public boolean checkAccountInfo(AccountVO account, UserVO user) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("select ui.user_name, ui.user_email, ui.user_birthday, ui.user_tel, a.acc_password ");
+		sql.append("select ui.user_name, ui.user_email, replace(ui.user_birthday, '/', '') as birthday, ui.user_tel, a.acc_password ");
 		sql.append(" from b_user_info ui ");
 		sql.append(" join b_account a on ui.user_id = a.user_id ");
 		sql.append(" where a.acc_no = ? ");
@@ -146,13 +146,17 @@ public class AccountDAO {
 		try (Connection conn = new ConnectionFactory().getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
 			pstmt.setString(1, account.getAccNo());
+			System.out.println(user.getUserBirthday());
+			System.out.println(account.getAccNo());
 			
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				accPW = rs.getString("acc_password");
 				userName = rs.getString("user_name");
 				email = rs.getString("user_email");
-				birthday = rs.getString("user_birthday");
+				birthday = rs.getString("birthday");
+				System.out.println(birthday);
+				System.out.println(user.getUserBirthday());
 				phone = rs.getString("user_tel");
 				
 				if(accPW.equals(account.getAccPassword()) && userName.equals(user.getUserName()) && email.equals(user.getUserEmail()) && birthday.equals(user.getUserBirthday()) && phone.equals(user.getUserTel())) {

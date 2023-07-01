@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -78,17 +79,25 @@ function validateEmail() {
 
 
 function checkSubmit() {
-    var password = $("#password").val();
-    var accNo = $("#accNo").val();
+	var accNo = $("#accNo").val();
+    var accpassword = $("#accpassword").val();
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var birthday = $("#jumin1").val();
+    var phone = $("#phone").val();
     // 유효성 검사 수행
     if (validatePassword()) {
         // 유효성 검사 통과 시 AJAX 요청
         console.log('duplicate check start...')
         $.ajax({
-            url: "/MYBANK/checktransactionpassword.do", // 중복 아이디 확인을 위한 서버 요청 URL
+            url: "/MYBANK/checktaccountinfo.do", // 중복 아이디 확인을 위한 서버 요청 URL
             method: "POST",
-            data: {password: password,
-            		accNo: accNo}, // 폼 데이터 직렬화하여 전송
+            data: {accNo: accNo,
+            		accpassword: accpassword,
+            		name: name,
+            		email: email,
+            		birthday: birthday,
+            		phone: phone}, // 폼 데이터 직렬화하여 전송
             success: function(response) {
                 response = response.trim();
                 if (response === "fail") {
@@ -130,7 +139,7 @@ $(document).ready(function() {
 </header>
 <section class="container">
   <h1 class="text-center">휴면계좌 해제 신청</h1>
-  <form action="reactivatedormantaccount.do" method="POST" class="text-center" name="inputForm" id="reactivateForm" onsubmit="return checkSubmit()" >
+  <form action="reactivatedormantaccountprocess.do" method="POST" class="text-center" name="inputForm" id="reactivateForm" onsubmit="return checkSubmit()" >
      <div class="form-group">
       <label for="accpassword">계좌 비밀번호</label>
       <input type="password" id="accpassword" name="accpassword" class="form-control" placeholder="계좌비밀번호">
@@ -153,8 +162,8 @@ $(document).ready(function() {
       <label for="phone">전화번호</label>
       <input type="tel" id="phone" name="phone" class="form-control" placeholder="010-0000-0000" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
       <span id="phoneErrorMessage"></span>
+ 	<input type="hidden" id="accNo" name="accNo" value="${accNo}">
     </div>
- 
     <button type="submit" class="btn btn-primary">해제 신청</button>
   </form>
 </section>

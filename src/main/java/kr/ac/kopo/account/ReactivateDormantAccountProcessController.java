@@ -6,15 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 import kr.ac.kopo.biz.account.AccountDAO;
 import kr.ac.kopo.controller.Controller;
 
-public class ReactivateDormantAccountController implements Controller{
+public class ReactivateDormantAccountProcessController implements Controller{
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {
 
 		String accNo = request.getParameter("accNo");
+		AccountDAO dao = new AccountDAO();
+		dao.reactivateDA(accNo);
 		
-		request.setAttribute("accNo", accNo);
-		return "/jsp/account/reactivatedormantaccount.jsp";
+		return "redirect:/myaccount.do";
 	}
 	
 }

@@ -62,10 +62,8 @@
               </c:if>
               
               <c:if test="${ account.dormantAcc eq '1' }">
-              <td><form method="post" action="/MYBANK/transaction.do">
-              <input type="hidden" name="balance" value="${account.balance}">
+              <td><form method="post" action="/MYBANK/reactivatedormantaccount.do">
               <input type="hidden" name="accNo" value="${account.accNo}">
-              <input type="hidden" name="bankCode" value="${account.bankCode}">      
               <button>휴면해제하기</button></form></td>
               </c:if>
             </tr>
