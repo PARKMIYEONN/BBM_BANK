@@ -198,6 +198,10 @@ alter table b_products modify (end_date null);
 
 select * from b_products;
 
+delete from b_products where release_date = '23/07/02';
+
+delete from b_account where acc_no = '100329463187';
+
 select * from b_account;
 select * from b_transaction;
 
@@ -299,7 +303,7 @@ END;
 
 CREATE OR REPLACE PROCEDURE transfer_ezi (
   sender_account_number IN b_account.acc_no%TYPE, 
-  receiver_account_number IN account.account_id @eziBank%TYPE, 
+  receiver_account_number IN account.acc_no @eziBank%TYPE, 
   transfer_amount IN NUMBER) AS
   sender_balance NUMBER;
   receiver_balance NUMBER;
@@ -310,9 +314,9 @@ BEGIN
   WHERE acc_no = sender_account_number;
   
   -- 받는 계좌의 잔액 확인
-  SELECT account_bl INTO receiver_balance 
-  FROM account@BjBank 
-  WHERE account_id = receiver_account_number;
+  SELECT balance INTO receiver_balance 
+  FROM account@eziBank 
+  WHERE acc_no = receiver_account_number;
   
   -- 보내는 계좌의 잔액이 충분한지 확인
   IF sender_balance >= transfer_amount THEN
@@ -322,9 +326,9 @@ BEGIN
     WHERE acc_no = sender_account_number;
     
     -- 받는 계좌에 돈을 추가
-    UPDATE account@BjBank
-    SET account_bl = account_bl + transfer_amount
-    WHERE account_id = receiver_account_number;
+    UPDATE account@eziBank
+    SET balance = balance + transfer_amount
+    WHERE acc_no = receiver_account_number;
   ELSE
     RAISE_APPLICATION_ERROR(-20001, 'Insufficient balance');
   END IF;
@@ -378,6 +382,9 @@ CREATE DATABASE LINK KKPBank
 )';
 select * from b_user_info;
 
+insert into b_account(acc_no, user_id, product_name, bank_cd, acc_type, balance, ACC_CREATED_DATE, acc_password)
+ values('100320781659', 'poly01', '입출금이 자유로운 예금', '1003', '예금', '0', '23/01/01', '123456');
+
 select * from member @BjBank;
 select * from product @BjBank;
 select * from account @BjBank;
@@ -415,9 +422,47 @@ where a.acc_no = '18653972';
 
 select * from b_account;
 
-update b_account set dormant_acc = '1' where acc_no = '28195704';
+update b_account set dormant_acc = '1' where acc_no = '100320781659';
 
+update b_products set product_rate = '2';
 
+CREATE OR REPLACE PROCEDURE transfer_eziToBJ (
+  sender_account_number IN account.acc_no@eziBank%TYPE, 
+  receiver_account_number IN account.account_id @BjBank%TYPE, 
+  transfer_amount IN NUMBER) AS
+  sender_balance NUMBER;
+  receiver_balance NUMBER;
+BEGIN
+  -- 보내는 계좌의 잔액 확인
+  SELECT balance INTO sender_balance 
+  FROM account@eziBank
+  WHERE acc_no = sender_account_number;
+  
+  -- 받는 계좌의 잔액 확인
+  SELECT account_bl INTO receiver_balance 
+  FROM account@BjBank 
+  WHERE account_id = receiver_account_number;
+  
+  -- 보내는 계좌의 잔액이 충분한지 확인
+  IF sender_balance >= transfer_amount THEN
+    -- 보내는 계좌에서 돈을 빼고
+    UPDATE account@eziBank
+    SET balance = balance - transfer_amount
+    WHERE acc_no = sender_account_number;
+    
+    -- 받는 계좌에 돈을 추가
+    UPDATE account@BjBank
+    SET account_bl = account_bl + transfer_amount
+    WHERE account_id = receiver_account_number;
+  ELSE
+    RAISE_APPLICATION_ERROR(-20001, 'Insufficient balance');
+  END IF;
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE;
+END;
+/
 
 
 commit;

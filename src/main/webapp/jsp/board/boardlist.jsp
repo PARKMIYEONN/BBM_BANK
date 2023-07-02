@@ -35,13 +35,11 @@
           </c:forEach>
         </tbody>
       </table>
-      <form action="post.do" method="post" class="text-center">
-        <input type="text" name="postNo" class="form-control">
-        <button type="submit" class="btn btn-primary">글번호</button>
-      </form>
+      <c:if test="${ not empty loginUser }">
       <form action="posting.do" method="post" class="text-center">
         <button type="submit" class="btn btn-primary">글쓰기</button>
       </form>
+      </c:if>
     </div>
   </div>
 </section>

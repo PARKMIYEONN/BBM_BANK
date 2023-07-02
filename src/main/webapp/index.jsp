@@ -12,6 +12,14 @@
 		<jsp:include page="/jsp/include/topMenu.jsp"/>
 	</header>
 	<section>
+		<div class="d-flex justify-content-center">
+		<a>
+		<img src="/MYBANK/jsp/image/ppj.png" alt="mainbreadproduct" width="100%">
+		</a>
+		<a>
+		<img src="/MYBANK/jsp/image/pwy.png" alt="mainwhaleproduct" width="100%">
+		</a>
+		</div>
 		
 	</section>
 	

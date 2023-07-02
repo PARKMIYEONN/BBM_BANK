@@ -78,7 +78,7 @@
     <div class="footer-left">
       <svg class="bi footer-logo">
       </svg>
-      <span class="footer-text">여긴 보통 무슨 내용이 들어가지...? BBM Bank</span>
+      <span class="footer-text">BBM Bank</span>
     </div>
     <ul class="nav footer-right">
       <li class="ms-3">

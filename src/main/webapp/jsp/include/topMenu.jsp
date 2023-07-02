@@ -57,9 +57,14 @@
   <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
     <li><a href="/MYBANK/index.do" class="nav-link px-2 link-secondary">Home</a></li>
     <li><a href="/MYBANK/boardlist.do" class="nav-link px-2 link-dark">문의게시판</a></li>
+    <c:if test="${ loginUser.userId eq 'admin01' }">
     <li><a href="/MYBANK/productlist.do" class="nav-link px-2 link-dark">상품등록</a></li>
+    </c:if>
+    <c:if test="${ not empty loginUser}">
+    <c:if test="${ loginUser.userId ne 'admin01' }">
     <li><a href="/MYBANK/accountpage.do" class="nav-link px-2 link-dark">내계좌</a></li>
-    <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+    </c:if>
+    </c:if>
   </ul>
 
   <div class="col-md-3 text-end">
