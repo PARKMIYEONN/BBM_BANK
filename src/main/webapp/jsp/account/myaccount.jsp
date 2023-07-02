@@ -45,7 +45,7 @@
         <tbody>
           <c:forEach var="account" items="${myAccount}">
             <tr>
-              <td>${account.bankCode}-${account.accNo}</td>
+              <td>${account.accNo}</td>
               <td>${account.productName}</td>
               <td>${account.accType}</td>
               <td>${account.balance}</td>

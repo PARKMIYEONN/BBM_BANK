@@ -297,6 +297,44 @@ EXCEPTION
 END;
 /
 
+CREATE OR REPLACE PROCEDURE transfer_ezi (
+  sender_account_number IN b_account.acc_no%TYPE, 
+  receiver_account_number IN account.account_id @eziBank%TYPE, 
+  transfer_amount IN NUMBER) AS
+  sender_balance NUMBER;
+  receiver_balance NUMBER;
+BEGIN
+  -- 보내는 계좌의 잔액 확인
+  SELECT balance INTO sender_balance 
+  FROM b_account 
+  WHERE acc_no = sender_account_number;
+  
+  -- 받는 계좌의 잔액 확인
+  SELECT account_bl INTO receiver_balance 
+  FROM account@BjBank 
+  WHERE account_id = receiver_account_number;
+  
+  -- 보내는 계좌의 잔액이 충분한지 확인
+  IF sender_balance >= transfer_amount THEN
+    -- 보내는 계좌에서 돈을 빼고
+    UPDATE b_account
+    SET balance = balance - transfer_amount
+    WHERE acc_no = sender_account_number;
+    
+    -- 받는 계좌에 돈을 추가
+    UPDATE account@BjBank
+    SET account_bl = account_bl + transfer_amount
+    WHERE account_id = receiver_account_number;
+  ELSE
+    RAISE_APPLICATION_ERROR(-20001, 'Insufficient balance');
+  END IF;
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE;
+END;
+/
+
 BEGIN
   transfer_otherBank('85913260', '202306280018', 1000);
   COMMIT;

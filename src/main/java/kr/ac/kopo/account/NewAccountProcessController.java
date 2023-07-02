@@ -29,7 +29,7 @@ public class NewAccountProcessController implements Controller{
 		String accType = product.getProductType();
 		long balance = 0;
 		AccountDAO dao = new AccountDAO();
-		String accNo = dao.generateRandomNumber(8);
+		String accNo = "1003" + dao.generateRandomNumber(8);
 		System.out.println(accNo);
 		
 		AccountVO vo = new AccountVO();

@@ -40,7 +40,9 @@
 <select id="bank-select" name="bankCode">
   <option disabled selected>조회할 은행을 선택하세요</option>
   <c:forEach var="bank" items="${bankList}">
+  <c:if test="${bank.bankCode ne '1003' }">
     <option value="${bank.bankCode}">${bank.bankName}</option>   
+  </c:if>
   </c:forEach>
 </select>   
     <button type="submit" class="btn btn-primary">조회</button>

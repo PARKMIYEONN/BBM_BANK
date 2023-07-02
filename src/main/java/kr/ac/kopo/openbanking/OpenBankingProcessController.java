@@ -1,6 +1,8 @@
 package kr.ac.kopo.openbanking;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +23,13 @@ public class OpenBankingProcessController implements Controller{
 		UserVO user = (UserVO)session.getAttribute("loginUser");
 		AccountDAO dao = new AccountDAO();
 		List<AccountVO> accountList =  dao.selectbankaccountlist(user.getUserEmail(), bankCode);
+		long totalBalance = dao.selectedtotalbalance(user.getUserEmail(), bankCode);
+		
+		NumberFormat currencyFormatKorea = NumberFormat.getInstance(Locale.KOREA);
+        String formattedAmountKorea = currencyFormatKorea.format(totalBalance) + "원";
 		
 		request.setAttribute("accountList", accountList);
+		request.setAttribute("totalBalance", formattedAmountKorea);
 		
 		return "/jsp/openbanking/openbanking.jsp";
 	}

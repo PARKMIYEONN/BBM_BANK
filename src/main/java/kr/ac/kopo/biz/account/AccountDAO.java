@@ -27,6 +27,17 @@ public class AccountDAO {
 		return accountList;
 	}
 	
+	public long selectedtotalbalance(String email, String bankCode) {
+		long tb = 0;
+		switch(bankCode) {
+		case "0413" : tb = this.totalBalancebj(email);
+		break;
+		case "0504" : tb = this.totalBalanceezi(email);
+		break;
+		}
+		return tb;
+	}
+	
 	public void newAccount(AccountVO vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into b_account(acc_no, user_id, product_name, bank_cd, acc_type, balance, acc_password) ");
@@ -52,7 +63,7 @@ public class AccountDAO {
 	
 	public List<AccountVO> myAcc(String id){
 		StringBuilder sql = new StringBuilder();
-		sql.append("select * from b_account where user_id = ? ");
+		sql.append("select acc_no, user_id, product_name, bank_cd, acc_type, dormant_acc, balance, to_char(acc_created_date, 'yyyy-mm-dd')as acc_created_date, acc_password from b_account where user_id = ? ");
 		AccountVO account = null;
 		List<AccountVO> accList = new ArrayList<>();
 		try(Connection conn = new ConnectionFactory().getConnection();
@@ -71,9 +82,8 @@ public class AccountDAO {
 				account.setDormantAcc(rs.getInt("dormant_acc"));
 				account.setProductName(rs.getString("product_name"));
 				account.setUserId(id);
-				accList.add(account);
-				
-			}
+				accList.add(account);				
+			}	
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,6 +98,44 @@ public class AccountDAO {
 		try(Connection conn = new ConnectionFactory().getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
 			pstmt.setString(1, userId);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				totalbalance += rs.getLong("balance");
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return totalbalance;
+	}
+	
+	public long totalBalancebj(String userEmail) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select a.account_bl from account@BjBank a join member@BjBank m on a.member_id = m.member_id where member_em = ? ");
+		long totalbalance = 0;
+		try(Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, userEmail);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				totalbalance += rs.getLong("account_bl");
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return totalbalance;
+	}
+	
+	public long totalBalanceezi(String userEmail) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select a.balance from account@eziBank a join bk_user@eziBank m on a.user_id = m.user_id where user_email = ? ");
+		long totalbalance = 0;
+		try(Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, userEmail);
 			
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {

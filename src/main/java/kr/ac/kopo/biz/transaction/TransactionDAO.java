@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.kopo.util.ConnectionFactory;
+import oracle.jdbc.proxy.annotation.Pre;
 
 public class TransactionDAO {
 	
@@ -20,8 +21,12 @@ public class TransactionDAO {
 						this.depositHistory(vo);
 				break;
 		case "0413" : returnVal = this.transferBJ(vo.getAccNo(), vo.getDepositAccNo(), vo.getTransAmount());
-						this.transactionHistory(vo);
+						this.transactionHistoryBj(vo);
 						this.depositHistoryBJ(vo);
+				break;
+		case "0504" : returnVal = this.transferezi(vo.getAccNo(), vo.getDepositAccNo(), vo.getTransAmount());
+						this.transactionHistoryezi(vo);
+						this.depositHistoryezi(vo);					
 				break;
 		}
 		return returnVal;
@@ -101,6 +106,43 @@ public class TransactionDAO {
 			
 	}
 	
+	public int transferezi(String senderAccNo, String recieverAccNo, long amount) throws Exception{
+		Connection conn = null;
+		CallableStatement callableStatment = null;
+		
+		StringBuilder sql = new StringBuilder();
+		try{
+			conn = new ConnectionFactory().getConnection();
+			
+			conn.setAutoCommit(false);
+			
+			sql.append("{call transfer_ezi(?, ?, ?)}");
+			callableStatment = conn.prepareCall(sql.toString());
+			
+			callableStatment.setString(1, senderAccNo);
+			callableStatment.setString(2, recieverAccNo);
+			callableStatment.setLong(3, amount);
+			
+			callableStatment.executeUpdate();
+			conn.commit();
+			
+			return 1;
+			
+		} catch (SQLException e) {
+			conn.rollback();
+			return 0;
+			
+		}finally {
+			if(callableStatment != null) {
+				callableStatment.close();
+			}
+			if(conn != null) {
+				conn.close();
+			}
+		}
+		
+	}
+	
 	public void transactionHistory(TransactionVO vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into b_transaction(t_cd, acc_no, t_type, t_amount, t_info, bank_cd, deposit_bank_cd, deposit_account, t_pre_balance ) ");
@@ -110,10 +152,74 @@ public class TransactionDAO {
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
 			pstmt.setString(1, vo.getAccNo());
 			System.out.println(vo.getAccNo());
-			pstmt.setString(2, "출금");
+			pstmt.setString(2, "이체");
 			pstmt.setLong(3, vo.getTransAmount());
 			if(vo.getTransInfo().equals("")) {
 				pstmt.setString(4, this.getName(vo.getDepositAccNo()));
+				
+			}else {
+				pstmt.setString(4, vo.getTransInfo());
+			}
+			pstmt.setString(5, vo.getBankCode());
+			System.out.println(vo.getBankCode());
+			pstmt.setString(6, vo.getDepositBankCode());
+			pstmt.setString(7, vo.getDepositAccNo());
+			System.out.println(vo.getDepositAccNo());
+			pstmt.setLong(8, vo.getPreBalance()-vo.getTransAmount());
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void transactionHistoryezi(TransactionVO vo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into b_transaction(t_cd, acc_no, t_type, t_amount, t_info, bank_cd, deposit_bank_cd, deposit_account, t_pre_balance ) ");
+		sql.append(" values(sequence_TransNO.nextval, ?, ?, ?, ?, ? ,? , ?,?) ");
+		
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, vo.getAccNo());
+			System.out.println(vo.getAccNo());
+			pstmt.setString(2, "이체");
+			pstmt.setLong(3, vo.getTransAmount());
+			if(vo.getTransInfo().equals("")) {
+				pstmt.setString(4, this.getNameezi(vo.getDepositAccNo()));
+				
+			}else {
+				pstmt.setString(4, vo.getTransInfo());
+			}
+			pstmt.setString(5, vo.getBankCode());
+			System.out.println(vo.getBankCode());
+			pstmt.setString(6, vo.getDepositBankCode());
+			pstmt.setString(7, vo.getDepositAccNo());
+			System.out.println(vo.getDepositAccNo());
+			pstmt.setLong(8, vo.getPreBalance()-vo.getTransAmount());
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void transactionHistoryBj(TransactionVO vo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into b_transaction(t_cd, acc_no, t_type, t_amount, t_info, bank_cd, deposit_bank_cd, deposit_account, t_pre_balance ) ");
+		sql.append(" values(sequence_TransNO.nextval, ?, ?, ?, ?, ? ,? , ?,?) ");
+		
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, vo.getAccNo());
+			System.out.println(vo.getAccNo());
+			pstmt.setString(2, "이체");
+			pstmt.setLong(3, vo.getTransAmount());
+			if(vo.getTransInfo().equals("")) {
+				pstmt.setString(4, this.getNameBj(vo.getDepositAccNo()));
 				
 			}else {
 				pstmt.setString(4, vo.getTransInfo());
@@ -182,6 +288,31 @@ public class TransactionDAO {
 		}
 	}
 	
+	public void depositHistoryezi(TransactionVO vo) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into history@eziBank(ts_no, acc_no, bankcode, sender, t_type, t_amount, balance, rc_bankcode, rc_account, receiver) ");
+		sql.append(" values(ts_no.nextval@eziBank, ?, ?, ?, ?, ? ,? , ?, ?, ?) ");
+		
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, vo.getDepositAccNo());
+			pstmt.setString(2, vo.getDepositBankCode());
+			pstmt.setString(3, this.getNameezi(vo.getDepositAccNo()));
+			pstmt.setString(4, "입금");
+			pstmt.setLong(5, vo.getTransAmount());
+			pstmt.setLong(6, this.getBalanceezi(vo.getDepositAccNo()));
+			pstmt.setString(7, vo.getBankCode());
+			pstmt.setString(8, vo.getAccNo());
+			pstmt.setString(9, this.getName(vo.getAccNo()));
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 	public List<TransactionVO> transactionList(String accNo){
@@ -238,6 +369,40 @@ public class TransactionDAO {
 		return userName;
 	}
 	
+	public String getNameezi(String accNo) {
+		StringBuilder sql = new StringBuilder();
+		String userName = null;
+		sql.append("select ui.user_name, a.acc_no from account @eziBank a join bk_user @eziBank ui on a.user_id = ui.user_id where acc_no = ?");
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, accNo);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				userName = rs.getString("user_name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userName;
+	}
+	
+	public String getNameBj(String accNo) {
+		StringBuilder sql = new StringBuilder();
+		String userName = null;
+		sql.append("select ui.member_nm, a.account_id from account @BjBank a join member @BjBank ui on a.member_id = ui.member_id where a.account_id = ?");
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, accNo);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				userName = rs.getString("member_nm");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userName;
+	}
+	
 
 	
 	public long getBalance(String accNo) {
@@ -256,6 +421,23 @@ public class TransactionDAO {
 			e.printStackTrace();
 		}
 		return rBalance;
+	}
+	
+	public long getBalanceezi(String accNo) {
+		StringBuilder sql = new StringBuilder();
+		long ezibalance = 0;
+		sql.append("select balance from account @eziBank where acc_no = ? ");
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());){
+			pstmt.setString(1, accNo);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				ezibalance = rs.getLong("balance");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ezibalance;
 	}
 	
 	
