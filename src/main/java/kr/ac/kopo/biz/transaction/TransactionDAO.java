@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.kopo.util.ConnectionFactory;
-import oracle.jdbc.proxy.annotation.Pre;
 
 public class TransactionDAO {
 	

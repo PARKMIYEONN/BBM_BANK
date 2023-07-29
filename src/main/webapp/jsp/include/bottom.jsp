@@ -7,6 +7,19 @@
   <meta charset="UTF-8">
   <title>Insert title here</title>
   <style>
+  	html {
+  		height:100%;
+  	}
+  	
+  	body{
+  		margin:0;
+  		
+  		display: flex;
+  		flex-direction: column;
+  		justify-content: space-between;
+  		min-height: 100%;
+  	}
+  	
     .footer-container {
       display: flex;
       flex-wrap: wrap;

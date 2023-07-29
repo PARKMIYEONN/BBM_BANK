@@ -210,6 +210,8 @@ ADD deposit_account VARCHAR(50);
 
 select * from b_transaction where acc_no = '18752936' or deposit_account = '18752936';
 
+insert into b_posts (post_no, user_id, content, post_title, post_permission, post_hit)
+values (sequence_postNo.nextVal, 'aaa01', '안녕하세요 반갑습니다.', '가입했습니다.', 0,0);
 
 insert into bank_info (bank_cd, bank_nm) values('0504', 'ezi은행');
 insert into bank_info (bank_cd, bank_nm) values('1003', 'BBM은행');
@@ -424,6 +426,8 @@ select * from b_account;
 
 update b_account set dormant_acc = '1' where acc_no = '100320781659';
 
+update b_account set balance = '10000000' where acc_no = '100320781659';
+
 update b_products set product_rate = '2';
 
 CREATE OR REPLACE PROCEDURE transfer_eziToBJ (
@@ -464,6 +468,7 @@ EXCEPTION
 END;
 /
 
+select * from b_posts;
 
 commit;
 
