@@ -28,7 +28,7 @@
           <c:forEach var="post" items="${boardList}">
             <tr>
               <td>${post.postNo}</td>
-              <td><a href="post.do?postNo=${post.postNo}">${post.title}</a></td>
+              <td><a href="${ pageContext.request.contextPath }/board/${ post.postNo }">${post.title}</a></td>
               <td>${post.writer}</td>
               <td>${post.regDate}</td>
             </tr>
