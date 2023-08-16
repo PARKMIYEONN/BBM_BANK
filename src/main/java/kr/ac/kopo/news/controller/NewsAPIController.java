@@ -13,10 +13,10 @@ public class NewsAPIController {
 	@Autowired
 	NewsDAO dao; 
 	
-	@GetMapping("/news")
+	@GetMapping("/newsjson")
 	public ResponseEntity<String> naverAPITest() {
 		
-		return dao.searchNews();
+		return dao.searchNewsAPI();
 	}
 
 }

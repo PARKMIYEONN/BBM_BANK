@@ -5,15 +5,18 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.ac.kopo.secrets.Secrets;
 
@@ -21,7 +24,7 @@ import kr.ac.kopo.secrets.Secrets;
 public class NewsDAOImpl implements NewsDAO{
 
 	@Override
-	public ResponseEntity<String> searchNews() {
+	public ResponseEntity<String> searchNewsAPI() {
 	
 		String query = "경제 연준 금융";
 		ByteBuffer buffer = StandardCharsets.UTF_8.encode(query);
@@ -45,6 +48,30 @@ public class NewsDAOImpl implements NewsDAO{
 		ResponseEntity<String> resEntity = restTem.exchange(reqEntity, String.class);
 				
 		return resEntity;
+	}
+
+	@Override
+	public NewsVO getAllNewsList(ResponseEntity<String> entity) {
+		
+		String responseBody = null;
+		
+		if(entity.getStatusCode().is2xxSuccessful()) {
+			responseBody = entity.getBody();
+			System.out.println(responseBody);
+		} else {
+			System.out.println("fail : " + entity.getStatusCode());
+		}
+		
+		NewsVO newsList = null;
+		ObjectMapper map = new ObjectMapper();
+		try {
+			newsList = map.readValue(responseBody, NewsVO.class);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return newsList;
 	}
 	
 	
