@@ -19,7 +19,6 @@
         <thead>
           <tr>
             <th>기사 제목</th>
-            <th>내용</th>
             <th>작성일시</th>
           </tr>
         </thead>
@@ -27,7 +26,6 @@
           <c:forEach var="news" items="${newsList}">
             <tr>
               <td><a href="${ news.link }">${news.title}</a></td>
-              <td>${news.description}</td>
               <td>${news.pubDate}</td>
             </tr>
           </c:forEach>

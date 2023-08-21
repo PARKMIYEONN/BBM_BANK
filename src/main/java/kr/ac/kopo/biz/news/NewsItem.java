@@ -1,12 +1,14 @@
 package kr.ac.kopo.biz.news;
 
+import java.util.Date;
+
 public class NewsItem {
 	
 	private String title;
 	private String originallink;
 	private String link;
 	private String description;
-	private String pubDate;
+	private Date pubDate;
 	
 	public String getTitle() {
 		return title;
@@ -32,13 +34,13 @@ public class NewsItem {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getPubDate() {
+	public Date getPubDate() {
 		return pubDate;
 	}
-	public void setPubDate(String pubDate) {
+	public void setPubDate(Date pubDate) {
 		this.pubDate = pubDate;
 	}
-	public NewsItem(String title, String originallink, String link, String description, String pubDate) {
+	public NewsItem(String title, String originallink, String link, String description, Date pubDate) {
 		super();
 		this.title = title;
 		this.originallink = originallink;

@@ -21,8 +21,8 @@ public class NewsController {
 	@GetMapping("/news")
 	public String newsList(HttpServletRequest request){
 		
-		NewsVO list = service.getAllNews();
-		List<NewsItem> items = list.getItems();
+		NewsVO vo = service.getAllNews();
+		List<NewsItem> items = vo.getItems();
 		
 		request.setAttribute("newsList", items);
 		
