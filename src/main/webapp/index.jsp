@@ -21,6 +21,8 @@
 		</a>
 		</div>
 		
+		<iframe src="http://172.31.9.168:8080/rateProj/rate" width="1000px" height="100px" scrolling="auto"></iframe>
+		
 	</section>
 	
 	<footer>

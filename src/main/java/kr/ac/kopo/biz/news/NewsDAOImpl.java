@@ -4,8 +4,6 @@ package kr.ac.kopo.biz.news;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.List;
 
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +12,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.ac.kopo.secrets.Secrets;
+import kr.ac.kopo.biz.secret.Secrets;
+
 
 @Repository
 public class NewsDAOImpl implements NewsDAO{
